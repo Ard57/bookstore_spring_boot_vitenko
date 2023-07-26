@@ -1,0 +1,71 @@
+body {
+    background: navajowhite;
+}
+
+a {
+    color: cadetblue;
+}
+
+.content {
+    margin-left: 10%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    border: 1px black solid;
+}
+
+th, td {
+    border: 1px black dashed;
+    padding: 3px;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.entity-page {
+    font-size: 20px;
+}
+
+.message-error {
+    border: 5px black solid;
+    background: #e74141;
+    border-radius: 30px;
+    max-width: 70%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.message-info {
+    border: 1px black dashed;
+    background: rgba(200, 200, 200, 50%);
+    border-radius: 20px;
+    max-width: 70%;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.navbar {
+    border: 2px darkgray solid;
+    background: rgba(240, 240, 240, 50%);
+    border-radius: 40px;
+    padding: 30px;
+    font-size: 18px;
+    margin-top: -35px;
+    max-width: 80%;
+}
+
+.form {
+    padding-left: 40%;
+    padding-top: 10%;
+    font-size: 20px;
+}
+
+.purchase {
+    margin-top: 20px;
+    background: lightgreen;
+}
