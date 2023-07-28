@@ -37,7 +37,7 @@
         <c:forEach items="${bookDtos}" var="bookDto" varStatus="counter">
             <tr>
                 <td>${counter.count}</td>
-                <td><a href="/book/show?id=${bookDto.id}">${bookDto.id}</a></td>
+                <td><a href="/book/${bookDto.id}">${bookDto.id}</a></td>
                 <td>${bookDto.name}</td>
                 <td>${bookDto.author}</td>
                 <td class="center-align">${bookDto.isbn}</td>
