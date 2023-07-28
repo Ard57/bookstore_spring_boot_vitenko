@@ -54,16 +54,14 @@
                 <td class="center-align">${orderItem.book.cover}</td>
 
                 <td class="center-align">
-                    <form method="post" action="/cart/add">
-                        <input name="book_id" type="hidden" value="${orderItem.book.id}">
+                    <form method="post" action="/cart/add/${orderItem.book.id}">
                         <input name="amount" type="hidden" value="-1">
                         <input type="submit" value="-">
                     </form>
 
                         ${orderItem.amount}
 
-                    <form method="post" action="/cart/add">
-                        <input name="book_id" type="hidden" value="${orderItem.book.id}">
+                    <form method="post" action="/cart/add/${orderItem.book.id}">
                         <input name="amount" type="hidden" value="1">
                         <input type="submit" value="+">
                     </form>

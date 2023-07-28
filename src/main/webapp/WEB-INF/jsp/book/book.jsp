@@ -29,7 +29,10 @@
     <p>Year published: ${bookDto.yearPublished}</p>
     <p>Cover: ${bookDto.cover}</p>
     <p>Price: ${bookDto.price}</p>
-    <h3><a href="/book/all">List of all books</a></h3>
+    <h3>
+        <a href="/book/all">List of all books</a>
+        <a href="/cart/add/${bookDto.id}">Add to Cart</a>
+    </h3>
 </div>
 </body>
 </html>
