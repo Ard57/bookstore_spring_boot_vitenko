@@ -7,8 +7,10 @@ import com.vitenko.bookstore.web.controller.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.websocket.server.PathParam;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,8 +19,8 @@ import java.util.List;
 public class BookController implements Controller {
     private final BookService bookService;
 
-    @GetMapping(path = "/book/show")
-    public String getBook(@RequestParam("id") Long id, Model model) throws BookNotFoundException {
+    @GetMapping(path = "/book/{id}")
+    public String getBook(@PathVariable Long id, Model model) throws BookNotFoundException {
         BookDto bookDto = bookService.findById(id);
 
         model.addAttribute("bookDto", bookDto);
