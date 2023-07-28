@@ -29,8 +29,6 @@ public class UserServiceImpl implements UserService {
                         throw new UserEmailNotUniqueException("User with email " + userDto.getEmail() + " already exists.");
                     }
                 }
-//                catch (DataAccessException exception) {
-//                }
                 catch (UserNotFoundException e) {
                 }
             } else {
