@@ -33,13 +33,13 @@
         <c:forEach items="${userDtos}" var="userDto" varStatus="counter">
             <tr>
                 <td>${counter.count}</td>
-                <td class="center-align"><a href="/user/show?id=${userDto.id}">${userDto.id}</a></td>
+                <td class="center-align"><a href="/user/${userDto.id}">${userDto.id}</a></td>
                 <td>${userDto.email}</td>
                 <td>${userDto.lastName}</td>
                 <td>${userDto.firstName}</td>
                 <td>${userDto.password}</td>
                 <td class="center-align">${userDto.role}</td>
-                <td class="center-align"><a href="/user/edit?id=${userDto.id}">Edit</a></td>
+                <td class="center-align"><a href="/user/${userDto.id}/edit">Edit</a></td>
             </tr>
         </c:forEach>
 
