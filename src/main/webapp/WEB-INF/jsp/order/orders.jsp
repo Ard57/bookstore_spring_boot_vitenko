@@ -32,7 +32,7 @@
         <c:forEach items="${orderDtos}" var="orderDto" varStatus="counter">
             <tr>
                 <td class="center-align">${counter.count}</td>
-                <td class="center-align"><a href="/order/show?id=${orderDto.id}">${orderDto.id}</a></td>
+                <td class="center-align"><a href="/order/${orderDto.id}">${orderDto.id}</a></td>
                 <td>${orderDto.user.email}</td>
                 <td class="center-align">${totalBooks.get(orderDto.id)}</td>
                 <td class="center-align">${totalPrices.get(orderDto.id)}</td>
