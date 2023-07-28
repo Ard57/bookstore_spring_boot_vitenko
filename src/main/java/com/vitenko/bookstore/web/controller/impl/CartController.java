@@ -8,10 +8,7 @@ import com.vitenko.bookstore.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -63,8 +60,8 @@ public class CartController {
         return "order/cart";
     }
 
-    @RequestMapping(path = "/cart/add")
-    public RedirectView addToCart(@RequestParam("book_id") Long bookId,
+    @RequestMapping(path = "/cart/add/{bookId}")
+    public RedirectView addToCart(@PathVariable Long bookId,
                                   @RequestParam(value = "amount", required = false) Integer amount,
                                   HttpSession session, Model model) throws BookNotFoundException {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
