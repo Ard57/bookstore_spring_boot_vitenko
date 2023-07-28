@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,8 +23,8 @@ import java.util.Map;
 public class OrderController implements Controller {
     private final OrderService orderService;
 
-    @GetMapping(path = "/order/show")
-    public String getOrder(@RequestParam("id") Long id, Model model) throws OrderNotFoundException {
+    @GetMapping(path = "/order/{id}")
+    public String getOrder(@PathVariable Long id, Model model) throws OrderNotFoundException {
         OrderDto orderDto = orderService.findById(id);
 
         model.addAttribute("orderDto", orderDto);

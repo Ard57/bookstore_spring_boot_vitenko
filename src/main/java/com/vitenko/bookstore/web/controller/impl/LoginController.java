@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,15 +33,10 @@ public class LoginController {
     }
 
     @PostMapping(path = "/register")
-    public RedirectView addUser(@RequestParam("email") String email,
-                                @RequestParam("password") String password,
+    public RedirectView addUser(@ModelAttribute("userDto") UserDto userDto,
                                 RedirectAttributes redirectAttributes,
                                 HttpSession session) throws
             UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
-        UserDto userDto = new UserDto();
-
-        userDto.setEmail(email);
-        userDto.setPassword(password);
         UserDto createdUserDto = userService.create(userDto);
 
         handleSessionAttributes(session, createdUserDto);
@@ -48,7 +44,7 @@ public class LoginController {
 
         redirectAttributes.addFlashAttribute("message", "You are successfully registered!");
 
-        return new RedirectView("/user/show?id=" + createdUserDto.getId());
+        return new RedirectView("/user/" + createdUserDto.getId());
     }
 
     @GetMapping(path = "/login")
@@ -58,11 +54,10 @@ public class LoginController {
     }
 
     @PostMapping(path = "/login")
-    public RedirectView login(@RequestParam("email") String email,
-                              @RequestParam("password") String password,
+    public RedirectView login(@ModelAttribute("userDto") UserDto userDto,
                               RedirectAttributes redirectAttributes, HttpSession session) throws
             UserNotFoundException {
-        UserDto userDto = userService.login(email, password);
+        userDto = userService.login(userDto.getEmail(), userDto.getPassword());
 
         handleSessionAttributes(session, userDto);
         session.setAttribute("user", userDto);
@@ -79,7 +74,7 @@ public class LoginController {
 
         redirectAttributes.addFlashAttribute("message", message.toString());
 
-        return new RedirectView("/user/show?id=" + userDto.getId());
+        return new RedirectView("/user/" + userDto.getId());
     }
 
     @GetMapping(path = "/logout")

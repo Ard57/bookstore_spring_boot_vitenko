@@ -20,18 +20,17 @@
 
     <div class="form">
 
-        <form class="form" method="post" action="/user/edit">
-            <input name="id" type="hidden" value="${userDto.id}">
+        <form class="form" method="post" action="/user/${userDto.id}/edit">
             <label>Email:
                 <input name="email" type="email" value="${userDto.email}" placeholder="your@email" required>
                 <br>
             </label>
             <label>First Name:
-                <input name="first_name" type="text" value="${userDto.firstName}" placeholder="First Name">
+                <input name="firstName" type="text" value="${userDto.firstName}" placeholder="First Name">
                 <br>
             </label>
             <label>Last Name:
-                <input name="last_name" type="text" value="${userDto.lastName}" placeholder="Last Name">
+                <input name="lastName" type="text" value="${userDto.lastName}" placeholder="Last Name">
                 <br>
             </label>
             <p>Role:</p>
