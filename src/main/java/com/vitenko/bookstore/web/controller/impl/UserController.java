@@ -1,6 +1,5 @@
 package com.vitenko.bookstore.web.controller.impl;
 
-import com.vitenko.bookstore.data.entity.User;
 import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
 import com.vitenko.bookstore.exception.user.UserNotFoundException;
@@ -13,9 +12,7 @@ import com.vitenko.bookstore.web.controller.Controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -29,8 +26,8 @@ import java.util.List;
 public class UserController implements Controller {
     private final UserService userService;
 
-    @GetMapping(path = "/user/show")
-    public String getUser(@RequestParam("id") Long id, Model model) throws UserNotFoundException {
+    @GetMapping(path = "/user/{id}")
+    public String getUser(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
         model.addAttribute("userDto", userDto);
         model.addAttribute("date", LocalDateTime.now().toString());
@@ -45,8 +42,8 @@ public class UserController implements Controller {
         return "user/users";
     }
 
-    @GetMapping(path = "/user/edit")
-    public String editUserForm(@RequestParam("id") Long id, Model model) throws UserNotFoundException {
+    @GetMapping(path = "/user/{id}/edit")
+    public String editUserForm(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
 
         model.addAttribute("userDto", userDto);
@@ -54,28 +51,25 @@ public class UserController implements Controller {
         return "user/userEditForm";
     }
 
-    @PostMapping(path = "/user/edit")
-    public RedirectView editUser(@RequestParam("id") Long id,
-                                 @RequestParam("email") String email,
-                                 @RequestParam(value = "first_name", required = false) String firstName,
-                                 @RequestParam(value = "last_name", required = false) String lastName,
-                                 @RequestParam(value = "role") String role,
+    @PostMapping(path = "/user/{id}/edit")
+    public RedirectView editUser(@PathVariable Long id,
+                                 @ModelAttribute("userDto") UserDto userDto,
                                  RedirectAttributes redirectAttributes, HttpSession session) throws
             UserEmailNotUniqueException, UserPasswordNotProvidedException,
             UserEmailWasNotProvidedException, UserNotFoundException {
-        UserDto userDto = userService.findById(id);
+        UserDto oldUserDto = userService.findById(id);
 
-        userDto.setEmail(email);
-        userDto.setFirstName(firstName);
-        userDto.setLastName(lastName);
-        userDto.setRole(User.Role.valueOf(role));
+        oldUserDto.setEmail(userDto.getEmail());
+        oldUserDto.setFirstName(userDto.getFirstName());
+        oldUserDto.setLastName(userDto.getLastName());
+        oldUserDto.setRole(userDto.getRole());
 
-        UserDto createdUserDto = userService.update(userDto);
+        UserDto createdUserDto = userService.update(oldUserDto);
 
         session.setAttribute("user", createdUserDto);
 
         redirectAttributes.addFlashAttribute("message", "User successfully edited.");
 
-        return new RedirectView("/user/show?id=" + createdUserDto.getId());
+        return new RedirectView("/user/" + createdUserDto.getId());
     }
 }
