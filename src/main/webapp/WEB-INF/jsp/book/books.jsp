@@ -4,6 +4,8 @@
 <head>
     <title>Books</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/jquery-3.7.0.js"></script>
+    <script defer src="/js/books.js"></script>
 </head>
 <body>
 
@@ -22,7 +24,6 @@
 
     <table>
         <tr>
-            <th>#</th>
             <th>ID</th>
             <th>Name</th>
             <th>Author</th>
@@ -33,22 +34,8 @@
             <th>Price</th>
             <th>Actions</th>
         </tr>
-
-        <c:forEach items="${bookDtos}" var="bookDto" varStatus="counter">
-            <tr>
-                <td>${counter.count}</td>
-                <td><a href="/book/${bookDto.id}">${bookDto.id}</a></td>
-                <td>${bookDto.name}</td>
-                <td>${bookDto.author}</td>
-                <td class="center-align">${bookDto.isbn}</td>
-                <td class="center-align">${bookDto.pages}</td>
-                <td class="center-align">${bookDto.yearPublished}</td>
-                <td class="center-align">${bookDto.cover}</td>
-                <td class="center-align">${bookDto.price}</td>
-                <td class="center-align"><a href="/cart/add/${bookDto.id}">Add to Cart</a></td>
-            </tr>
-        </c:forEach>
-
+        <tbody>
+        </tbody>
     </table>
 </div>
 </body>
