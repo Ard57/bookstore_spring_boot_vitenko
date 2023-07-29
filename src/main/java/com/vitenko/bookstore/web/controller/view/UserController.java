@@ -17,7 +17,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -34,10 +33,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/user/all")
-    public String getAllUsers(Model model) {
-        List<UserDto> userDtos = userService.getAllUsers();
-        model.addAttribute("userDtos", userDtos);
-        model.addAttribute("date", LocalDateTime.now().toString());
+    public String getAllUsers() {
         return "user/users";
     }
 

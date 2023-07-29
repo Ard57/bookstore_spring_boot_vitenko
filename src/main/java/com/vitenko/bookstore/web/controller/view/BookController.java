@@ -40,9 +40,6 @@ public class BookController {
 
     @GetMapping(path = "/book/all")
     public String getAllBooks(Model model) {
-        List<BookDto> bookDtos = bookService.getAllBooks();
-
-        model.addAttribute("bookDtos", bookDtos);
         return "book/books";
     }
 }
