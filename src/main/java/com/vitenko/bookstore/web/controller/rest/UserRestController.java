@@ -1,0 +1,39 @@
+package com.vitenko.bookstore.web.controller.rest;
+
+import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
+import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
+import com.vitenko.bookstore.exception.user.UserNotFoundException;
+import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
+import com.vitenko.bookstore.service.UserService;
+import com.vitenko.bookstore.service.dto.UserDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+public class UserRestController {
+    private final UserService userService;
+
+    @GetMapping("/api/users/{id}")
+    public UserDto getUser(@PathVariable Long id) throws UserNotFoundException {
+        return userService.findById(id);
+    }
+
+    @GetMapping("/api/users/all")
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @PostMapping("/api/users/create")
+    public UserDto createUser(@ModelAttribute("userDto") UserDto userDto) throws
+    UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+        return userService.create(userDto);
+    }
+
+    @DeleteMapping("/api/users/{id}/delete")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+    }
+}
