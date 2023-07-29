@@ -1,4 +1,4 @@
-package com.vitenko.bookstore.web.controller.impl;
+package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
@@ -6,7 +6,6 @@ import com.vitenko.bookstore.exception.user.UserNotFoundException;
 import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.UserDto;
-import com.vitenko.bookstore.web.controller.Controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("user")
-public class UserController implements Controller {
+public class UserController {
     private final UserService userService;
 
     @GetMapping(path = "/user/{id}")

@@ -13,8 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@ControllerAdvice(annotations = org.springframework.stereotype.Controller.class)
+@ControllerAdvice(annotations = {org.springframework.stereotype.Controller.class, RestController.class})
 public class ExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

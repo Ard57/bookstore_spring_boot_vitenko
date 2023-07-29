@@ -1,4 +1,4 @@
-package com.vitenko.bookstore.web.controller.impl;
+package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
 import com.vitenko.bookstore.service.CartService;

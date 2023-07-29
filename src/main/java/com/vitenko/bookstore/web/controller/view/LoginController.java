@@ -1,4 +1,4 @@
-package com.vitenko.bookstore.web.controller.impl;
+package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;

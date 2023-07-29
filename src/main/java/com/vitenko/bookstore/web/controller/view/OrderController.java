@@ -1,10 +1,9 @@
-package com.vitenko.bookstore.web.controller.impl;
+package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import com.vitenko.bookstore.service.dto.OrderItemDto;
-import com.vitenko.bookstore.web.controller.Controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
@@ -20,7 +19,7 @@ import java.util.Map;
 @Log4j2
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("order")
-public class OrderController implements Controller {
+public class OrderController {
     private final OrderService orderService;
 
     @GetMapping(path = "/order/{id}")
