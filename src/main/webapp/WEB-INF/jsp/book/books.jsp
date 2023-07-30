@@ -23,6 +23,7 @@
     </c:if>
 
     <table>
+        <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -34,6 +35,7 @@
             <th>Price</th>
             <th>Actions</th>
         </tr>
+        </thead>
         <tbody>
         </tbody>
     </table>
