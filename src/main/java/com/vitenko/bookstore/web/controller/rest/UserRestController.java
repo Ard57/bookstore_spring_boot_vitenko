@@ -32,7 +32,14 @@ public class UserRestController {
         return userService.create(userDto);
     }
 
-    @DeleteMapping("/api/users/{id}/delete")
+    @PutMapping("/api/users/{id}")
+    public UserDto editUser(@PathVariable Long id, @ModelAttribute("userDto") UserDto userDto) throws
+            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+        userDto.setId(id);
+        return userService.update(userDto);
+    }
+
+    @DeleteMapping("/api/users/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
     }
