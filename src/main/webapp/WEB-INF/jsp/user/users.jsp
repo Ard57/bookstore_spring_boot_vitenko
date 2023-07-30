@@ -21,8 +21,8 @@
     </c:if>
 
     <table>
+        <thead>
         <tr>
-            <th>#</th>
             <th>ID</th>
             <th>Email</th>
             <th>Last Name</th>
@@ -31,7 +31,7 @@
             <th>Role</th>
             <th>Actions</th>
         </tr>
-
+        </thead>
         <tbody>
         </tbody>
 
