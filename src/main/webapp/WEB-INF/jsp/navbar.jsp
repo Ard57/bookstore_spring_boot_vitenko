@@ -29,7 +29,7 @@
         <a href="/register">Sign Up</a>
     </c:if>
 
-    <a href="/cart">Cart<c:if
+    <a class="cart" href="/cart">Cart<c:if
             test="${sessionScope.cartSize != null && sessionScope.cartSize > 0}">(${sessionScope.cartSize})
     </c:if>
     </a>
