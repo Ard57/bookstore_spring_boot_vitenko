@@ -1,5 +1,10 @@
 $(document).ready(function () {
-    $.getJSON('/api/books/all', processBooks)
+    refresh();
+
+    function refresh() {
+        $.getJSON('/api/books/all', processBooks);
+        $.getJSON('/api/cart/size', setCartSize);
+    }
 
     function processBooks(data) {
         let table = $("tbody");
@@ -10,7 +15,7 @@ $(document).ready(function () {
     }
 
     function processTableRow(book, table) {
-        table.append(`
+        let tableRow = $(`
         <tr>
             <td><a href="/book/${book.id}">${book.id}</a></td>
             <td>${book.name}</td>
@@ -20,8 +25,27 @@ $(document).ready(function () {
             <td className="center-align">${book.yearPublished}</td>
             <td className="center-align">${book.cover}</td>
             <td className="center-align">${book.price}</td>
-            <td className="center-align"><a href="/cart/add/${book.id}">Add to Cart</a></td>
+            <td className="center-align">
+                <button class="add-to-cart-button">Add to Cart</button>
+            </td>
         </tr>
         `);
+
+        tableRow.find(".add-to-cart-button").on("click", () => $.ajax({
+            url: '/api/cart/add/' + book.id,
+            type: 'POST',
+            success: refresh
+        }));
+        table.append(tableRow);
+    }
+
+    function setCartSize(size) {
+        let cart = $(".cart");
+        cart.empty();
+        if (size > 0) {
+            cart.append('Cart(' + size + ')');
+        } else {
+            cart.append('Cart');
+        }
     }
 })
