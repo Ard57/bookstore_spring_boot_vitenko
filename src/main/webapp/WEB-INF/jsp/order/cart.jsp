@@ -4,6 +4,8 @@
 <head>
     <title>${title}</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/jquery-3.7.0.js"></script>
+    <script defer src="/js/cart.js"></script>
 </head>
 <body>
 <div class="content entity-page">
@@ -25,12 +27,12 @@
         </div>
     </c:if>
 
-    <p>Total price: ${totalPrice}</p>
+    <p class="total-price"></p>
     <p>List of books</p>
 
     <table>
+        <thead>
         <tr>
-            <th>#</th>
             <th>Book ID</th>
             <th>Name</th>
             <th>Author</th>
@@ -41,41 +43,14 @@
             <th>Amount</th>
             <th>Price</th>
         </tr>
+        </thead>
 
-        <c:forEach items="${orderDto.orderItems}" var="orderItem" varStatus="counter">
-            <tr>
-                <td>${counter.count}</td>
-                <td class="center-align"><a href="/book/${orderItem.book.id}">${orderItem.book.id}</a></td>
-                <td>${orderItem.book.name}</td>
-                <td>${orderItem.book.author}</td>
-                <td>${orderItem.book.isbn}</td>
-                <td class="center-align">${orderItem.book.pages}</td>
-                <td class="center-align">${orderItem.book.yearPublished}</td>
-                <td class="center-align">${orderItem.book.cover}</td>
-
-                <td class="center-align">
-                    <form method="post" action="/cart/add/${orderItem.book.id}">
-                        <input name="amount" type="hidden" value="-1">
-                        <input type="submit" value="-">
-                    </form>
-
-                        ${orderItem.amount}
-
-                    <form method="post" action="/cart/add/${orderItem.book.id}">
-                        <input name="amount" type="hidden" value="1">
-                        <input type="submit" value="+">
-                    </form>
-                </td>
-
-                <td> ${orderItem.amount} * ${orderItem.price} = ${orderItem.amount * orderItem.price}</td>
-            </tr>
-        </c:forEach>
-
+        <tbody>
+        </tbody>
     </table>
 
     <form method="post" action="\cart\purchase">
-        <input class="purchase" type="submit" value="Purchase"
-        <c:if test="${purchasePossible == false}"> disabled="disabled" title="${purchaseHelp}" </c:if>>
+        <input class="purchase" type="submit" value="Purchase" disabled="disabled"/>
     </form>
 
     <h3><a href="/book/all">Book Catalog</a></h3>
