@@ -4,6 +4,7 @@ import com.vitenko.bookstore.data.entity.Order;
 import com.vitenko.bookstore.data.repository.BookRepository;
 import com.vitenko.bookstore.data.repository.OrderRepository;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
+import com.vitenko.bookstore.exception.cart.CartException;
 import com.vitenko.bookstore.service.CartService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import com.vitenko.bookstore.service.dto.OrderDto;
@@ -64,17 +65,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public OrderDto makeOrder(OrderDto cart) {
-        if (cart != null) {
-            int cartSize = calculateCartSize(cart);
-
-            if (cart.getUser() != null && cartSize > 0) {
-                cart.setStatus(Order.Status.PROCESSING);
-                Order order = orderRepository.save(dataMapper.toOrder(cart));
-                return dataMapper.toOrderDto(order);
-            }
+    public OrderDto makeOrder(OrderDto cart) throws CartException {
+        if (cart == null) {
+            throw new CartException("Unable to make an order. Cart isn't set.");
         }
-        throw new RuntimeException("Unable to make an order");
+        int cartSize = calculateCartSize(cart);
+
+        if (cart.getUser() != null) {
+            throw new CartException("Unable to make an order. You must be logged in to make an order.");
+        }
+        if (cartSize < 1) {
+            throw new CartException("Unable to make an order. Cart is empty");
+        }
+        cart.setStatus(Order.Status.PROCESSING);
+        Order order = orderRepository.save(dataMapper.toOrder(cart));
+        return dataMapper.toOrderDto(order);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.vitenko.bookstore.service;
 
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
+import com.vitenko.bookstore.exception.cart.CartException;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import com.vitenko.bookstore.service.dto.UserDto;
 
@@ -11,7 +12,7 @@ public interface CartService {
 
     OrderDto setUser(OrderDto cart, UserDto userDto);
 
-    OrderDto makeOrder(OrderDto cart);
+    OrderDto makeOrder(OrderDto cart) throws CartException;
 
     int calculateCartSize(OrderDto cart);
 }

@@ -1,5 +1,6 @@
 package com.vitenko.bookstore.web.controller.view;
 
+import com.vitenko.bookstore.exception.cart.CartException;
 import com.vitenko.bookstore.service.CartService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping(path = "/cart/purchase")
-    public RedirectView purchase(HttpSession session, RedirectAttributes redirectAttributes) {
+    public RedirectView purchase(HttpSession session, RedirectAttributes redirectAttributes) throws CartException {
         OrderDto orderDto = cartService.makeOrder((OrderDto) session.getAttribute("cart"));
 
         session.removeAttribute("cart");
