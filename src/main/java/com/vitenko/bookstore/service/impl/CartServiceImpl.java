@@ -71,7 +71,7 @@ public class CartServiceImpl implements CartService {
         }
         int cartSize = calculateCartSize(cart);
 
-        if (cart.getUser() != null) {
+        if (cart.getUser() == null) {
             throw new CartException("Unable to make an order. You must be logged in to make an order.");
         }
         if (cartSize < 1) {
