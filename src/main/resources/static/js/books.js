@@ -27,6 +27,7 @@ $(document).ready(function () {
             <td className="center-align">${book.price}</td>
             <td className="center-align">
                 <button class="add-to-cart-button">Add to Cart</button>
+                <button class="edit-button">Edit</button>
             </td>
         </tr>
         `);
@@ -36,6 +37,8 @@ $(document).ready(function () {
             type: 'POST',
             success: refresh
         }));
+        tableRow.find(".edit-button").on("click", () => window.location.href = '/book/'+book.id+'/edit');
+
         table.append(tableRow);
     }
 
