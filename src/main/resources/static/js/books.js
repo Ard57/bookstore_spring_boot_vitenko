@@ -28,6 +28,7 @@ $(document).ready(function () {
             <td className="center-align">
                 <button class="add-to-cart-button">Add to Cart</button>
                 <button class="edit-button">Edit</button>
+                <button class="delete-button">Delete</button>
             </td>
         </tr>
         `);
@@ -35,6 +36,11 @@ $(document).ready(function () {
         tableRow.find(".add-to-cart-button").on("click", () => $.ajax({
             url: '/api/cart/add/' + book.id,
             type: 'POST',
+            success: refresh
+        }));
+        tableRow.find(".delete-button").on("click", () => $.ajax({
+            url: '/api/books/' + book.id,
+            type: 'DELETE',
             success: refresh
         }));
         tableRow.find(".edit-button").on("click", () => window.location.href = '/book/'+book.id+'/edit');
