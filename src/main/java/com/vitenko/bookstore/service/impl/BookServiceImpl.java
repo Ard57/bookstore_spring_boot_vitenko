@@ -3,6 +3,7 @@ package com.vitenko.bookstore.service.impl;
 import com.vitenko.bookstore.data.entity.Book;
 import com.vitenko.bookstore.data.repository.BookRepository;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
+import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.BookService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Log4j2
@@ -20,8 +22,9 @@ public class BookServiceImpl implements BookService {
     private final DataMapper dataMapper;
 
     @Override
-    public BookDto create(BookDto bookDto) {
+    public BookDto create(BookDto bookDto) throws IllegalBookArgumentException {
         log.debug("Creating book");
+        validate(bookDto);
         Book book = bookRepository.save(dataMapper.toBook(bookDto));
         return dataMapper.toBookDto(book);
     }
@@ -71,8 +74,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto update(BookDto bookDto) {
+    public BookDto update(BookDto bookDto) throws IllegalBookArgumentException {
         log.debug("Updating book");
+        validate(bookDto);
         Book book = bookRepository.save(dataMapper.toBook(bookDto));
         return dataMapper.toBookDto(book);
     }
@@ -83,6 +87,30 @@ public class BookServiceImpl implements BookService {
         boolean isDeleted = bookRepository.delete(id);
         if (!isDeleted) {
             throw new RuntimeException("Couldn't delete book with id: " + id + ".");
+        }
+    }
+
+    private void validate(BookDto bookDto) throws IllegalBookArgumentException {
+        if (bookDto.getName() == null || bookDto.getName().isEmpty()) {
+            throw new IllegalBookArgumentException("Book name cannot be empty");
+        }
+        if (bookDto.getAuthor() == null || bookDto.getAuthor().isEmpty()) {
+            throw new IllegalBookArgumentException("Book author must be specified");
+        }
+        if (bookDto.getIsbn() == null || bookDto.getIsbn().isEmpty()) {
+            throw new IllegalBookArgumentException("Book ISBN cannot be empty");
+        }
+        if (bookDto.getPages() == null || bookDto.getPages() < 1) {
+            throw new IllegalBookArgumentException("Number of book page must be specified");
+        }
+        if (bookDto.getYearPublished() == null) {
+            throw new IllegalBookArgumentException("Year of publication of book must be specified");
+        }
+        if (bookDto.getPrice() == null || bookDto.getPrice().compareTo(new BigDecimal(0.01)) < 0) {
+            throw new IllegalBookArgumentException("Book price must be specified");
+        }
+        if (bookDto.getCover() == null) {
+            throw new IllegalBookArgumentException("Book cover type must be specified");
         }
     }
 }
