@@ -44,7 +44,7 @@ public class LoginController {
 
         redirectAttributes.addFlashAttribute("message", "You are successfully registered!");
 
-        return new RedirectView("/user/" + createdUserDto.getId());
+        return new RedirectView("/users/" + createdUserDto.getId());
     }
 
     @GetMapping(path = "/login")
@@ -74,7 +74,7 @@ public class LoginController {
 
         redirectAttributes.addFlashAttribute("message", message.toString());
 
-        return new RedirectView("/user/" + userDto.getId());
+        return new RedirectView("/users/" + userDto.getId());
     }
 
     @GetMapping(path = "/logout")
