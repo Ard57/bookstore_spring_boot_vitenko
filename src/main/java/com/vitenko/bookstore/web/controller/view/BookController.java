@@ -13,37 +13,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.time.LocalDateTime;
-
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("book")
 public class BookController {
     private final BookService bookService;
 
     @GetMapping(path = "/book/{id}")
-    public String getBook(@PathVariable Long id, Model model) throws BookNotFoundException {
-        BookDto bookDto = bookService.findById(id);
-
-        model.addAttribute("bookDto", bookDto);
-        model.addAttribute("date", LocalDateTime.now().toString());
-
-        String title;
-        if (bookDto.getName() != null && !bookDto.getName().isBlank()) {
-            title = bookDto.getName();
-            if (bookDto.getYearPublished() != null) {
-                title += " " + bookDto.getYearPublished();
-            }
-        } else if (bookDto.getIsbn() != null && !bookDto.getIsbn().isBlank()) {
-            title = bookDto.getIsbn();
-        } else {
-            title = "Book";
-        }
-        model.addAttribute("title", title);
+    public String getBook(@PathVariable Long id, Model model) {
+        model.addAttribute("title", "Book " + id);
         return "book/book";
     }
 
     @GetMapping(path = "/book/all")
-    public String getAllBooks(Model model) {
+    public String getAllBooks() {
         return "book/books";
     }
 
