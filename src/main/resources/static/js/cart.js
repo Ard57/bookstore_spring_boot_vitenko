@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function refresh() {
         $.getJSON('/api/cart', processCart);
-        $.getJSON('/api/cart/size', setCartSize);
+        refreshCartSize(setCartSize);
         $.getJSON('/api/cart/totalprice', setTotalPrice);
         $.getJSON('/api/cart/validate', setPurchaseButton);
     }
@@ -53,6 +53,7 @@ $(document).ready(function () {
     }
 
     function setCartSize(size) {
+        setNavbarCartSizeCounter(size);
         let cart = $(".cart");
         cart.empty();
         if (size > 0) {

@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function refresh() {
         $.getJSON('/api/books/all', processBooks);
-        $.getJSON('/api/cart/size', setCartSize);
+        refreshCartSize(setCartSize);
     }
 
     function processBooks(data) {
@@ -49,6 +49,7 @@ $(document).ready(function () {
     }
 
     function setCartSize(size) {
+        setNavbarCartSizeCounter(size);
         let cart = $(".cart");
         cart.empty();
         if (size > 0) {

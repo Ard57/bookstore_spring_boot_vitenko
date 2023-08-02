@@ -4,6 +4,7 @@ $(document).ready(function () {
     function refresh() {
         let bookId = location.pathname.substring("/books/".length);
         $.getJSON('/api/books/' + bookId, processBook);
+        refreshCartSize(setNavbarCartSizeCounter);
     }
 
     function processBook(book) {
