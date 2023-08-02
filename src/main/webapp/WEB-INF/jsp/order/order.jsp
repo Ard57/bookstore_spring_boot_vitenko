@@ -58,7 +58,7 @@
 
     </table>
 
-    <h3><a href="/order/all">List of all orders</a></h3>
+    <h3><a href="/orders/all">List of all orders</a></h3>
 
 </div>
 </body>

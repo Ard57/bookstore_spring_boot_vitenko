@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,10 +20,11 @@ import java.util.Map;
 @Log4j2
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
-    @GetMapping(path = "/order/{id}")
+    @GetMapping(path = "/{id}")
     public String getOrder(@PathVariable Long id, Model model) throws OrderNotFoundException {
         OrderDto orderDto = orderService.findById(id);
 
@@ -42,7 +44,7 @@ public class OrderController {
         return "order/order";
     }
 
-    @GetMapping(path = "/order/all")
+    @GetMapping(path = "/all")
     public String getAllOrders(Model model) {
         List<OrderDto> orderDtos = orderService.getAllOrders();
 
