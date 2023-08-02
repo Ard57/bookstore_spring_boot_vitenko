@@ -26,8 +26,8 @@
     <p>Name: ${userDto.lastName} ${userDto.firstName}</p>
     <p>Password: ${userDto.password}</p>
     <p>Role: ${userDto.role}</p>
-    <h3><a href="/user/all">List of all users</a>
-        <a href="/user/${userDto.id}/edit">Edit</a>
+    <h3><a href="/users/all">List of all users</a>
+        <a href="/users/${userDto.id}/edit">Edit</a>
     </h3>
 </div>
 </body>

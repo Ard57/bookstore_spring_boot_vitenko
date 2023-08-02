@@ -11,7 +11,7 @@
 
     <c:if test="${sessionScope.user != null &&
      (sessionScope.user.role == 'ADMIN' || sessionScope.user.role == 'MANAGER')}">
-        <a href="/user/all">All Users</a>
+        <a href="/users/all">All Users</a>
     </c:if>
 
     <a href="/books/all">All Books</a>

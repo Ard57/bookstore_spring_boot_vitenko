@@ -16,7 +16,7 @@ $(document).ready(function () {
     function processTableRow(user, table) {
         let tableRow = $(`
             <tr>
-                <td class="center-align"><a href="/user/${user.id}">${user.id}</a></td>
+                <td class="center-align"><a href="/users/${user.id}">${user.id}</a></td>
                 <td>${user.email}</td>
                 <td>${user.lastName}</td>
                 <td>${user.firstName}</td>
@@ -34,7 +34,7 @@ $(document).ready(function () {
             type: 'DELETE',
             success: refresh
         }));
-        tableRow.find(".edit-button").on("click", () => window.location.href = '/user/'+user.id+'/edit');
+        tableRow.find(".edit-button").on("click", () => window.location.href = '/users/'+user.id+'/edit');
 
 
         table.append(tableRow);

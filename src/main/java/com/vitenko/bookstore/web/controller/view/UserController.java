@@ -21,10 +21,11 @@ import java.time.LocalDateTime;
 @Log4j2
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("user")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/{id}")
     public String getUser(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
         model.addAttribute("userDto", userDto);
@@ -32,12 +33,12 @@ public class UserController {
         return "user/user";
     }
 
-    @GetMapping(path = "/user/all")
+    @GetMapping(path = "/all")
     public String getAllUsers() {
         return "user/users";
     }
 
-    @GetMapping(path = "/user/{id}/edit")
+    @GetMapping(path = "/{id}/edit")
     public String editUserForm(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
 
@@ -46,7 +47,7 @@ public class UserController {
         return "user/userEditForm";
     }
 
-    @PostMapping(path = "/user/{id}/edit")
+    @PostMapping(path = "/{id}/edit")
     public RedirectView editUser(@PathVariable Long id,
                                  @ModelAttribute("userDto") UserDto userDto,
                                  RedirectAttributes redirectAttributes, HttpSession session) throws
@@ -65,6 +66,6 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("message", "User successfully edited.");
 
-        return new RedirectView("/user/" + createdUserDto.getId());
+        return new RedirectView("/users/" + createdUserDto.getId());
     }
 }
