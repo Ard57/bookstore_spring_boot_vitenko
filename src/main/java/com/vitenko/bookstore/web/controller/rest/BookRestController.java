@@ -26,13 +26,13 @@ public class BookRestController {
     }
 
     @PostMapping("")
-    public BookDto createBook(@ModelAttribute("bookDto") BookDto bookDto)
+    public BookDto createBook(@ModelAttribute BookDto bookDto)
             throws IllegalBookArgumentException {
         return bookService.create(bookDto);
     }
 
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @ModelAttribute("bookDto") BookDto bookDto)
+    public BookDto updateBook(@PathVariable Long id, @ModelAttribute BookDto bookDto)
             throws IllegalBookArgumentException {
         bookDto.setId(id);
         return bookService.update(bookDto);

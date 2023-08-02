@@ -27,13 +27,13 @@ public class UserRestController {
     }
 
     @PostMapping("/api/users/create")
-    public UserDto createUser(@ModelAttribute("userDto") UserDto userDto) throws
+    public UserDto createUser(@ModelAttribute UserDto userDto) throws
     UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
         return userService.create(userDto);
     }
 
     @PutMapping("/api/users/{id}")
-    public UserDto editUser(@PathVariable Long id, @ModelAttribute("userDto") UserDto userDto) throws
+    public UserDto editUser(@PathVariable Long id, @ModelAttribute UserDto userDto) throws
             UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
         userDto.setId(id);
         return userService.update(userDto);
