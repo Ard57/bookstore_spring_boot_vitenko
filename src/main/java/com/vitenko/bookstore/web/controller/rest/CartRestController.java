@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,7 +19,7 @@ public class CartRestController {
     private final CartService cartService;
 
     @GetMapping("/api/cart")
-    public List<Map<String, String>> getCart(HttpSession session) {
+    public OrderDto getCart(HttpSession session) {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
         if (cart == null) {
             cart = cartService.createCart();
@@ -30,27 +28,7 @@ public class CartRestController {
             }
             session.setAttribute("cart", cart);
         }
-
-        List<Map<String, String>> mapList = new ArrayList<>();
-        for (OrderItemDto orderItemDto : cart.getOrderItems()) {
-            Map<String, String> orderItemMap = new HashMap<>();
-            orderItemMap.put("bookId", orderItemDto.getBook().getId().toString());
-            orderItemMap.put("bookName", orderItemDto.getBook().getName());
-            orderItemMap.put("bookAuthor", orderItemDto.getBook().getAuthor());
-            orderItemMap.put("bookIsbn", orderItemDto.getBook().getIsbn());
-            orderItemMap.put("bookPages", orderItemDto.getBook().getPages().toString());
-            orderItemMap.put("bookYearPublished", orderItemDto.getBook().getYearPublished().toString());
-            orderItemMap.put("bookCover", orderItemDto.getBook().getCover().toString());
-            orderItemMap.put("bookPrice", orderItemDto.getBook().getPrice().toString());
-            orderItemMap.put("amount", orderItemDto.getAmount().toString());
-            orderItemMap.put("subTotal", orderItemDto.getBook().getPrice().
-                    multiply(new BigDecimal(orderItemDto.getAmount()))
-                    .toString());
-
-            mapList.add(orderItemMap);
-        }
-
-        return mapList;
+        return cart;
     }
 
     @PostMapping("/api/cart/add/{bookId}")
