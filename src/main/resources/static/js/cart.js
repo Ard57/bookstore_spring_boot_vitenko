@@ -64,14 +64,12 @@ $(document).ready(function () {
 
     function setTotalPrice(totalPrice) {
         let totalPriceTag = $('.total-price');
-        console.log(totalPrice);
         totalPriceTag.empty();
         totalPriceTag.append('Total price: ' + totalPrice);
     }
 
     function setPurchaseButton(settings) {
         let purchaseButton = $(".purchase");
-        console.log(purchaseButton);
         if (settings.purchasePossible === "disabled") {
             purchaseButton.attr("disabled", settings.purchasePossible);
         } else {
