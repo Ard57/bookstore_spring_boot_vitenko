@@ -1,6 +1,8 @@
 package com.vitenko.bookstore.data.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,6 +22,7 @@ public class OrderItem {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
