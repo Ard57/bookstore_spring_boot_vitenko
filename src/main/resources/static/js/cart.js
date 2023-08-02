@@ -20,7 +20,7 @@ $(document).ready(function () {
         let subtotal = orderItem.amount * orderItem.bookPrice;
         let tableRow = $(`
         <tr>
-                <td class="center-align"><a href="/book/${orderItem.bookId}">${orderItem.bookId}</a></td>
+                <td class="center-align"><a href="/books/${orderItem.bookId}">${orderItem.bookId}</a></td>
                 <td>${orderItem.bookName}</td>
                 <td>${orderItem.bookAuthor}</td>
                 <td>${orderItem.bookIsbn}</td>

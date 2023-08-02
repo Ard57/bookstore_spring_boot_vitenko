@@ -20,7 +20,7 @@
 
     <div class="form">
 
-        <form method="post" action="/book/${bookDto.id}/edit">
+        <form method="post" action="/books/${bookDto.id}/edit">
             <label>Name:
                 <input name="name" type="text" value="${bookDto.name}" placeholder="Book Name" required>
                 <br>

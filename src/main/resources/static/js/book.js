@@ -2,7 +2,7 @@ $(document).ready(function () {
     refresh();
 
     function refresh() {
-        let bookId = location.pathname.substring("/book/".length);
+        let bookId = location.pathname.substring("/books/".length);
         $.getJSON('/api/books/' + bookId, processBook);
     }
 
@@ -49,9 +49,9 @@ $(document).ready(function () {
         actionsDivContent.find(".delete-button").on("click", () => $.ajax({
             url: '/api/books/' + book.id,
             type: 'DELETE',
-            success: () => window.location.href = '/book/all'
+            success: () => window.location.href = '/books/all'
         }));
-        actionsDivContent.find(".edit-button").on("click", () => window.location.href = '/book/' + book.id + '/edit');
+        actionsDivContent.find(".edit-button").on("click", () => window.location.href = '/books/' + book.id + '/edit');
 
         actionsDiv.append(actionsDivContent);
     }

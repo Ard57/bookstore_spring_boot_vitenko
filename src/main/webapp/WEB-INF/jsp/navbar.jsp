@@ -14,7 +14,7 @@
         <a href="/user/all">All Users</a>
     </c:if>
 
-    <a href="/book/all">All Books</a>
+    <a href="/books/all">All Books</a>
 
     <c:if test="${sessionScope.user != null &&
      (sessionScope.user.role == 'ADMIN' || sessionScope.user.role == 'MANAGER')}">

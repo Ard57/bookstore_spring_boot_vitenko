@@ -53,7 +53,7 @@
         <input class="purchase" type="submit" value="Purchase" disabled="disabled"/>
     </form>
 
-    <h3><a href="/book/all">Book Catalog</a></h3>
+    <h3><a href="/books/all">Book Catalog</a></h3>
 
 </div>
 </body>

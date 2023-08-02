@@ -26,10 +26,6 @@
 
     </div>
     <div class="actions">
-        <h3>
-            <a href="/book/all">List of all books</a>
-            <a href="/cart/add/${bookDto.id}">Add to Cart</a>
-        </h3>
     </div>
 </div>
 </body>

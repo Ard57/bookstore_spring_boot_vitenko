@@ -44,7 +44,7 @@
         <tr>
             <td>${counter.count}</td>
             <td class="center-align">${orderItem.id}</td>
-            <td class="center-align"><a href="/book/${orderItem.book.id}">${orderItem.book.id}</a></td>
+            <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
             <td>${orderItem.book.name}</td>
             <td>${orderItem.book.author}</td>
             <td>${orderItem.book.isbn}</td>

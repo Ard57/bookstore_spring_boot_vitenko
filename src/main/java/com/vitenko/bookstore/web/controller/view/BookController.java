@@ -6,37 +6,35 @@ import com.vitenko.bookstore.service.BookService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("book")
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 
-    @GetMapping(path = "/book/{id}")
+    @GetMapping(path = "/{id}")
     public String getBook(@PathVariable Long id, Model model) {
         model.addAttribute("title", "Book " + id);
         return "book/book";
     }
 
-    @GetMapping(path = "/book/all")
+    @GetMapping(path = "/all")
     public String getAllBooks() {
         return "book/books";
     }
 
-    @GetMapping(path = "/book/{id}/edit")
+    @GetMapping(path = "/{id}/edit")
     public String getBookEditForm(@PathVariable Long id, Model model) throws BookNotFoundException {
         BookDto bookDto = bookService.findById(id);
         model.addAttribute("bookDto", bookDto);
         return "book/bookEditForm";
     }
 
-    @PostMapping(path = "/book/{id}/edit")
+    @PostMapping(path = "/{id}/edit")
     public RedirectView editBook(@PathVariable Long id,
                                  @ModelAttribute("bookDto") BookDto bookDto,
                                  RedirectAttributes redirectAttributes)
@@ -50,12 +48,12 @@ public class BookController {
         return new RedirectView("/book/" + updatedBookDto.getId());
     }
 
-    @GetMapping(path = "/book/create")
+    @GetMapping(path = "/create")
     public String getBookCreateForm() {
         return "book/bookCreateForm";
     }
 
-    @PostMapping(path = "/book/create")
+    @PostMapping(path = "/create")
     public RedirectView createBook(@ModelAttribute("bookDto") BookDto bookDto,
             RedirectAttributes redirectAttributes) throws IllegalBookArgumentException {
         BookDto createdBookDto = bookService.create(bookDto);

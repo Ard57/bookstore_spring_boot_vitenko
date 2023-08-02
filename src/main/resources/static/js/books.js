@@ -17,7 +17,7 @@ $(document).ready(function () {
     function processTableRow(book, table) {
         let tableRow = $(`
         <tr>
-            <td><a href="/book/${book.id}">${book.id}</a></td>
+            <td><a href="/books/${book.id}">${book.id}</a></td>
             <td>${book.name}</td>
             <td>${book.author}</td>
             <td className="center-align">${book.isbn}</td>
@@ -43,7 +43,7 @@ $(document).ready(function () {
             type: 'DELETE',
             success: refresh
         }));
-        tableRow.find(".edit-button").on("click", () => window.location.href = '/book/'+book.id+'/edit');
+        tableRow.find(".edit-button").on("click", () => window.location.href = '/books/'+book.id+'/edit');
 
         table.append(tableRow);
     }
