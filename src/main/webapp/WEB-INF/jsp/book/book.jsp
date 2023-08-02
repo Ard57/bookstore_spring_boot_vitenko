@@ -4,6 +4,8 @@
 <head>
     <title>${title}</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/jquery-3.7.0.js"></script>
+    <script defer src="/js/book.js"></script>
 </head>
 <body>
 
@@ -20,19 +22,15 @@
                 ${requestScope.message}
         </div>
     </c:if>
+    <div class="book-fields">
 
-    <p>ID: ${bookDto.id}</p>
-    <p>Name: ${bookDto.name}</p>
-    <p>Author: ${bookDto.author}</p>
-    <p>ISBN: ${bookDto.isbn}</p>
-    <p>Pages: ${bookDto.pages}</p>
-    <p>Year published: ${bookDto.yearPublished}</p>
-    <p>Cover: ${bookDto.cover}</p>
-    <p>Price: ${bookDto.price}</p>
-    <h3>
-        <a href="/book/all">List of all books</a>
-        <a href="/cart/add/${bookDto.id}">Add to Cart</a>
-    </h3>
+    </div>
+    <div class="actions">
+        <h3>
+            <a href="/book/all">List of all books</a>
+            <a href="/cart/add/${bookDto.id}">Add to Cart</a>
+        </h3>
+    </div>
 </div>
 </body>
 </html>
