@@ -11,7 +11,7 @@ $(document).ready(function () {
     function processCart(data) {
         let table = $("tbody");
         table.empty();
-        data.forEach(function (obj) {
+        data.orderItems.forEach(function (obj) {
             processTableRow(obj, table)
         });
     }
@@ -20,13 +20,13 @@ $(document).ready(function () {
         let subtotal = orderItem.amount * orderItem.bookPrice;
         let tableRow = $(`
         <tr>
-                <td class="center-align"><a href="/books/${orderItem.bookId}">${orderItem.bookId}</a></td>
-                <td>${orderItem.bookName}</td>
-                <td>${orderItem.bookAuthor}</td>
-                <td>${orderItem.bookIsbn}</td>
-                <td class="center-align">${orderItem.bookPages}</td>
-                <td class="center-align">${orderItem.bookYearPublished}</td>
-                <td class="center-align">${orderItem.bookCover}</td>
+                <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
+                <td>${orderItem.book.name}</td>
+                <td>${orderItem.book.author}</td>
+                <td>${orderItem.book.isbn}</td>
+                <td class="center-align">${orderItem.book.pages}</td>
+                <td class="center-align">${orderItem.book.yearPublished}</td>
+                <td class="center-align">${orderItem.book.cover}</td>
 
                 <td class="center-align">
                     <button class="remove-one-button">-</button>
@@ -34,18 +34,18 @@ $(document).ready(function () {
                     <button class="add-one-button">+</button>
                 </td>
 
-                <td> ${orderItem.amount} * ${orderItem.bookPrice} = ${orderItem.subTotal}</td>
+                <td> ${orderItem.amount} * ${orderItem.book.price} = ${orderItem.subTotal}</td>
                 
             </tr>
         `);
 
         tableRow.find(".add-one-button").on("click", () => $.ajax({
-            url: '/api/cart/add/' + orderItem.bookId + '?amount=1',
+            url: '/api/cart/add/' + orderItem.book.id + '?amount=1',
             type: 'POST',
             success: refresh
         }));
         tableRow.find(".remove-one-button").on("click", () => $.ajax({
-            url: '/api/cart/add/' + orderItem.bookId + '?amount=-1',
+            url: '/api/cart/add/' + orderItem.book.id + '?amount=-1',
             type: 'POST',
             success: refresh
         }));
