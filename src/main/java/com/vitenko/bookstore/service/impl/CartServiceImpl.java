@@ -78,6 +78,11 @@ public class CartServiceImpl implements CartService {
             throw new CartException("Unable to make an order. Cart is empty");
         }
         cart.setStatus(Order.Status.PROCESSING);
+
+        for (OrderItemDto item : cart.getOrderItems()) {
+            item.setPrice(item.getBook().getPrice());
+        }
+
         Order order = orderRepository.save(dataMapper.toOrder(cart));
         return dataMapper.toOrderDto(order);
     }
