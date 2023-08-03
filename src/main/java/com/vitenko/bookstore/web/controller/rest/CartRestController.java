@@ -68,7 +68,7 @@ public class CartRestController {
         BigDecimal totalPrice = new BigDecimal(0);
         for (OrderItemDto orderItemDto : cart.getOrderItems()) {
             totalPrice = totalPrice.add(
-                    orderItemDto.getPrice().multiply(
+                    orderItemDto.getBook().getPrice().multiply(
                             new BigDecimal(orderItemDto.getAmount())));
         }
         return totalPrice.toString();
