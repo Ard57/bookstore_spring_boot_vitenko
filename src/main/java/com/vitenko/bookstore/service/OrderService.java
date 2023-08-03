@@ -1,12 +1,13 @@
 package com.vitenko.bookstore.service;
 
+import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.dto.OrderDto;
 
 import java.util.List;
 
 public interface OrderService {
-    OrderDto create(OrderDto orderDto);
+    OrderDto create(OrderDto orderDto) throws IllegalOrderArgumentException;
 
     OrderDto findById(Long id) throws OrderNotFoundException;
 
@@ -14,7 +15,7 @@ public interface OrderService {
 
     List<OrderDto> getAllOrders();
 
-    OrderDto update(OrderDto orderDto);
+    OrderDto update(OrderDto orderDto) throws IllegalOrderArgumentException;
 
     void deleteById(Long id);
 }

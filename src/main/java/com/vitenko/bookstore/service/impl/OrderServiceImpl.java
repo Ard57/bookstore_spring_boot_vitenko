@@ -2,14 +2,17 @@ package com.vitenko.bookstore.service.impl;
 
 import com.vitenko.bookstore.data.entity.Order;
 import com.vitenko.bookstore.data.repository.OrderRepository;
+import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
+import com.vitenko.bookstore.service.dto.OrderItemDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Log4j2
@@ -19,9 +22,10 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final DataMapper dataMapper;
     @Override
-    public OrderDto create(OrderDto orderDto) {
+    public OrderDto create(OrderDto orderDto) throws IllegalOrderArgumentException {
         log.debug("Creating order");
         orderDto.setStatus(Order.Status.PROCESSING);
+        validate(orderDto);
         Order order = orderRepository.save(dataMapper.toOrder(orderDto));
         return dataMapper.toOrderDto(order);
     }
@@ -55,8 +59,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto update(OrderDto orderDto) {
+    public OrderDto update(OrderDto orderDto) throws IllegalOrderArgumentException {
         log.debug("Updating order");
+        validate(orderDto);
         Order order = orderRepository.save(dataMapper.toOrder(orderDto));
         return dataMapper.toOrderDto(order);
     }
@@ -67,6 +72,32 @@ public class OrderServiceImpl implements OrderService {
         boolean isDeleted = orderRepository.delete(id);
         if (!isDeleted) {
             throw new RuntimeException("Couldn't delete order with id: " + id + ".");
+        }
+    }
+
+    private void validate(OrderDto orderDto) throws IllegalOrderArgumentException {
+        if (orderDto.getUser() == null) {
+            throw new IllegalOrderArgumentException("Customer for order must be specified.");
+        }
+        if (orderDto.getStatus() == null) {
+            throw new IllegalOrderArgumentException("Order must have correct status.");
+        }
+        if (orderDto.getOrderItems() == null || orderDto.getOrderItems().isEmpty()) {
+            throw new IllegalOrderArgumentException("List of order items must be not empty.");
+        }
+        for (OrderItemDto item : orderDto.getOrderItems()) {
+            if (item == null) {
+                throw new IllegalOrderArgumentException("Order cannot contain empty items.");
+            }
+            if (item.getBook() == null) {
+                throw new IllegalOrderArgumentException("Order item must have specified book");
+            }
+            if (item.getPrice() == null || (item.getPrice().compareTo(new BigDecimal("0.01")) <= 0)) {
+                throw new IllegalOrderArgumentException("Order item price must be specified");
+            }
+            if (item.getAmount() == null || item.getAmount() < 1) {
+                throw new IllegalOrderArgumentException("Order item amount must be specified");
+            }
         }
     }
 }

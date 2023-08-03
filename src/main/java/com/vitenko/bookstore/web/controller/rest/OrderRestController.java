@@ -1,5 +1,6 @@
 package com.vitenko.bookstore.web.controller.rest;
 
+import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
@@ -25,12 +26,12 @@ public class OrderRestController {
     }
 
     @PostMapping(path = "")
-    public OrderDto createOrder(@ModelAttribute OrderDto orderDto) {
+    public OrderDto createOrder(@ModelAttribute OrderDto orderDto) throws IllegalOrderArgumentException {
         return orderService.create(orderDto);
     }
 
     @PutMapping(path = "/{id}")
-    public OrderDto updateOrder(@PathVariable Long id, @ModelAttribute OrderDto orderDto) {
+    public OrderDto updateOrder(@PathVariable Long id, @ModelAttribute OrderDto orderDto) throws IllegalOrderArgumentException {
         orderDto.setId(id);
         return orderService.update(orderDto);
     }
