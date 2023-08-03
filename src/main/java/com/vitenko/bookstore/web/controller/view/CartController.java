@@ -1,7 +1,7 @@
 package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.cart.CartException;
-import com.vitenko.bookstore.service.CartService;
+import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("cart")
 public class CartController {
-    private final CartService cartService;
+    private final OrderService orderService;
 
     @GetMapping(path = "/cart")
     public String getCart(Model model) {
@@ -26,7 +26,7 @@ public class CartController {
 
     @PostMapping(path = "/cart/purchase")
     public RedirectView purchase(HttpSession session, RedirectAttributes redirectAttributes) throws CartException {
-        OrderDto orderDto = cartService.makeOrder((OrderDto) session.getAttribute("cart"));
+        OrderDto orderDto = orderService.makeOrder((OrderDto) session.getAttribute("cart"));
 
         session.removeAttribute("cart");
         session.removeAttribute("cartSize");

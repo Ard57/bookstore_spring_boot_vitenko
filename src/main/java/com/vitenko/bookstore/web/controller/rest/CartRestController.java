@@ -1,7 +1,7 @@
 package com.vitenko.bookstore.web.controller.rest;
 
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
-import com.vitenko.bookstore.service.CartService;
+import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import com.vitenko.bookstore.service.dto.OrderItemDto;
 import com.vitenko.bookstore.service.dto.UserDto;
@@ -16,15 +16,15 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class CartRestController {
-    private final CartService cartService;
+    private final OrderService orderService;
 
     @GetMapping("/api/cart")
     public OrderDto getCart(HttpSession session) {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
         if (cart == null) {
-            cart = cartService.createCart();
+            cart = orderService.createCart();
             if (session.getAttribute("user") != null) {
-                cartService.setUser(cart, (UserDto) session.getAttribute("user"));
+                orderService.setUser(cart, (UserDto) session.getAttribute("user"));
             }
             session.setAttribute("cart", cart);
         }
@@ -37,7 +37,7 @@ public class CartRestController {
                           HttpSession session) throws BookNotFoundException {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
         if (cart == null) {
-            cart = cartService.createCart();
+            cart = orderService.createCart();
             session.setAttribute("cart", cart);
         }
 
@@ -45,7 +45,7 @@ public class CartRestController {
             amount = 1;
         }
 
-        cartService.addItem(cart, bookId, amount);
+        orderService.addItem(cart, bookId, amount);
     }
 
     @GetMapping("/api/cart/size")
@@ -54,7 +54,7 @@ public class CartRestController {
         if (cart == null) {
             return 0;
         }
-        int cartSize = cartService.calculateCartSize(cart);
+        int cartSize = orderService.getOrderSize(cart);
         session.setAttribute("cartSize", cartSize);
         return cartSize;
     }

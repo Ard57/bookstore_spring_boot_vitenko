@@ -4,7 +4,7 @@ import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
 import com.vitenko.bookstore.exception.user.UserNotFoundException;
 import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
-import com.vitenko.bookstore.service.CartService;
+import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import com.vitenko.bookstore.service.dto.UserDto;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 @org.springframework.stereotype.Controller("login")
 public class LoginController {
     private final UserService userService;
-    private final CartService cartService;
+    private final OrderService orderService;
 
     @GetMapping(path = "/register")
     public String registrationForm() {
@@ -92,7 +92,7 @@ public class LoginController {
             session.removeAttribute("cart");
             session.removeAttribute("cartSize");
         } else if (cart != null){
-            cartService.setUser(cart, userDto);
+            orderService.setUser(cart, userDto);
         }
     }
 }
