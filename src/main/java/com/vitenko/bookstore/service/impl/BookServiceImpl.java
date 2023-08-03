@@ -106,7 +106,7 @@ public class BookServiceImpl implements BookService {
         if (bookDto.getYearPublished() == null) {
             throw new IllegalBookArgumentException("Year of publication of book must be specified");
         }
-        if (bookDto.getPrice() == null || bookDto.getPrice().compareTo(new BigDecimal(0.01)) < 0) {
+        if (bookDto.getPrice() == null || (bookDto.getPrice().compareTo(new BigDecimal("0.01")) < 0)) {
             throw new IllegalBookArgumentException("Book price must be specified");
         }
         if (bookDto.getCover() == null) {
