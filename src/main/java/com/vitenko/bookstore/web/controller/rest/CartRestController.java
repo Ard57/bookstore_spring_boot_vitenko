@@ -3,7 +3,6 @@ package com.vitenko.bookstore.web.controller.rest;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
-import com.vitenko.bookstore.service.dto.OrderItemDto;
 import com.vitenko.bookstore.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -60,18 +59,12 @@ public class CartRestController {
     }
 
     @GetMapping("/api/cart/totalprice")
-    public String getCartTotalPrice(HttpSession session) {
+    public BigDecimal getCartTotalPrice(HttpSession session) {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
         if (cart == null) {
-            return "0";
+            return new BigDecimal("0");
         }
-        BigDecimal totalPrice = new BigDecimal(0);
-        for (OrderItemDto orderItemDto : cart.getOrderItems()) {
-            totalPrice = totalPrice.add(
-                    orderItemDto.getBook().getPrice().multiply(
-                            new BigDecimal(orderItemDto.getAmount())));
-        }
-        return totalPrice.toString();
+        return orderService.getOrderTotalPrice(cart);
     }
 
     @GetMapping(path = "/api/cart/validate")
