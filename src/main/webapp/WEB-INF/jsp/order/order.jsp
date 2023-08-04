@@ -2,8 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${title}</title>
+    <title>Order</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/lib/jquery-3.7.0.js"></script>
+    <script defer src="/js/lib/big-decimal.js"></script>
+    <script defer src="/js/order.js"></script>
 </head>
 <body>
 <div class="content entity-page">
@@ -11,7 +14,6 @@
     <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <h1>Order</h1>
-    <h3>${date}</h3>
 
     <c:if test="${requestScope.message != null}">
         <div class="message-info">
@@ -20,18 +22,11 @@
     </c:if>
 
     <div class="order-info">
-        <p>ID: ${orderDto.id}</p>
-        <p>Buyer: ${orderDto.user.email}</p>
-        <p>Order status: ${orderDto.status}</p>
-        <p>Total price: ${totalPrice}</p>
-        <p>List of books</p>
     </div>
 
     <table>
         <thead>
         <tr>
-            <th>#</th>
-            <th>Item ID</th>
             <th>Book ID</th>
             <th>Name</th>
             <th>Author</th>
@@ -46,21 +41,6 @@
 
         <tbody>
         </tbody>
-        <c:forEach items="${orderDto.orderItems}" var="orderItem" varStatus="counter">
-            <tr>
-                <td>${counter.count}</td>
-                <td class="center-align">${orderItem.id}</td>
-                <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
-                <td>${orderItem.book.name}</td>
-                <td>${orderItem.book.author}</td>
-                <td>${orderItem.book.isbn}</td>
-                <td class="center-align">${orderItem.book.pages}</td>
-                <td class="center-align">${orderItem.book.yearPublished}</td>
-                <td class="center-align">${orderItem.book.cover}</td>
-                <td class="center-align">${orderItem.amount}</td>
-                <td> ${orderItem.amount} * ${orderItem.price} = ${orderItem.amount * orderItem.price}</td>
-            </tr>
-        </c:forEach>
 
     </table>
 
