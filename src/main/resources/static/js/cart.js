@@ -17,7 +17,7 @@ $(document).ready(function () {
     }
 
     function processTableRow(orderItem, table) {
-        let subtotal = orderItem.amount * orderItem.bookPrice;
+        let subtotal = new BigDecimal(orderItem.book.price).multiply(orderItem.amount);
         let tableRow = $(`
         <tr>
                 <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
@@ -34,7 +34,7 @@ $(document).ready(function () {
                     <button class="add-one-button">+</button>
                 </td>
 
-                <td> ${orderItem.amount} * ${orderItem.book.price} = ${orderItem.subTotal}</td>
+                <td> ${orderItem.amount} * ${orderItem.book.price} = ${subtotal}</td>
                 
             </tr>
         `);
