@@ -4,7 +4,7 @@
 <head>
     <title>Navigation Bar</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
-    <script defer src="/js/jquery-3.7.0.js"></script>
+    <script defer src="/js/lib/jquery-3.7.0.js"></script>
     <script defer src="/js/cart-size.js"></script>
 </head>
 <body>

@@ -19,13 +19,16 @@
         </div>
     </c:if>
 
-    <p>ID: ${orderDto.id}</p>
-    <p>Buyer: ${orderDto.user.email}</p>
-    <p>Order status: ${orderDto.status}</p>
-    <p>Total price: ${totalPrice}</p>
-    <p>List of books</p>
+    <div class="order-info">
+        <p>ID: ${orderDto.id}</p>
+        <p>Buyer: ${orderDto.user.email}</p>
+        <p>Order status: ${orderDto.status}</p>
+        <p>Total price: ${totalPrice}</p>
+        <p>List of books</p>
+    </div>
 
     <table>
+        <thead>
         <tr>
             <th>#</th>
             <th>Item ID</th>
@@ -39,21 +42,24 @@
             <th>Amount</th>
             <th>Price</th>
         </tr>
+        </thead>
 
+        <tbody>
+        </tbody>
         <c:forEach items="${orderDto.orderItems}" var="orderItem" varStatus="counter">
-        <tr>
-            <td>${counter.count}</td>
-            <td class="center-align">${orderItem.id}</td>
-            <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
-            <td>${orderItem.book.name}</td>
-            <td>${orderItem.book.author}</td>
-            <td>${orderItem.book.isbn}</td>
-            <td class="center-align">${orderItem.book.pages}</td>
-            <td class="center-align">${orderItem.book.yearPublished}</td>
-            <td class="center-align">${orderItem.book.cover}</td>
-            <td class="center-align">${orderItem.amount}</td>
-            <td> ${orderItem.amount} * ${orderItem.price} = ${orderItem.amount * orderItem.price}</td>
-        </tr>
+            <tr>
+                <td>${counter.count}</td>
+                <td class="center-align">${orderItem.id}</td>
+                <td class="center-align"><a href="/books/${orderItem.book.id}">${orderItem.book.id}</a></td>
+                <td>${orderItem.book.name}</td>
+                <td>${orderItem.book.author}</td>
+                <td>${orderItem.book.isbn}</td>
+                <td class="center-align">${orderItem.book.pages}</td>
+                <td class="center-align">${orderItem.book.yearPublished}</td>
+                <td class="center-align">${orderItem.book.cover}</td>
+                <td class="center-align">${orderItem.amount}</td>
+                <td> ${orderItem.amount} * ${orderItem.price} = ${orderItem.amount * orderItem.price}</td>
+            </tr>
         </c:forEach>
 
     </table>

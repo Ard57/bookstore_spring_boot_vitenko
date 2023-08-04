@@ -4,7 +4,7 @@
 <head>
     <title>${title}</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
-    <script defer src="/js/jquery-3.7.0.js"></script>
+    <script defer src="/js/lib/jquery-3.7.0.js"></script>
     <script defer src="/js/book.js"></script>
 </head>
 <body>
