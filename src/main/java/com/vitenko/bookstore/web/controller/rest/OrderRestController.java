@@ -7,6 +7,7 @@ import com.vitenko.bookstore.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -39,5 +40,11 @@ public class OrderRestController {
     @DeleteMapping(path = "/{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/totalprice")
+    public BigDecimal getOrderTotalPrice(@PathVariable Long id) throws OrderNotFoundException {
+        OrderDto orderDto = orderService.findById(id);
+        return orderService.getOrderTotalPrice(orderDto);
     }
 }
