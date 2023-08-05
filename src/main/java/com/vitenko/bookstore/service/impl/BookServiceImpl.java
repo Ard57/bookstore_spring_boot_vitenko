@@ -32,20 +32,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto findById(Long id) throws BookNotFoundException {
         log.debug("Retrieving book by id");
-        Book book = bookRepository.findById(id);
-        if (book == null) {
-            throw new RuntimeException("Book with id " + id + " wasn't found.");
-        }
+        Book book = bookRepository.findById(id).
+                orElseThrow(() -> new BookNotFoundException("Book with id " + id + " wasn't found."));
         return dataMapper.toBookDto(book);
     }
 
     @Override
     public BookDto findByIsbn(String isbn) throws BookNotFoundException {
         log.debug("Retrieving book by ISBN");
-        Book book = bookRepository.findByIsbn(isbn);
-        if (book == null) {
-            throw new RuntimeException("Book with ISBN " + isbn + " wasn't found.");
-        }
+        Book book = bookRepository.findByIsbn(isbn).
+                orElseThrow(() -> new BookNotFoundException("Book with ISBN " + isbn + " wasn't found."));
         return dataMapper.toBookDto(book);
     }
 
@@ -84,10 +80,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         log.debug("Deleting book by");
-        boolean isDeleted = bookRepository.delete(id);
-        if (!isDeleted) {
-            throw new RuntimeException("Couldn't delete book with id: " + id + ".");
-        }
+        bookRepository.deleteById(id);
     }
 
     private void validate(BookDto bookDto) throws IllegalBookArgumentException {
