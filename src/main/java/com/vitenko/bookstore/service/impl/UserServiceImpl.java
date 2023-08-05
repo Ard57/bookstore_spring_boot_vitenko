@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -24,22 +24,18 @@ public class UserServiceImpl implements UserService {
             UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
         if (userDto.getEmail() != null && !userDto.getEmail().isBlank()) {
             if (userDto.getId() == null) {
-                try {
-                    if (userRepository.findByEmail(userDto.getEmail()) != null) {
-                        throw new UserEmailNotUniqueException("User with email " + userDto.getEmail() + " already exists.");
-                    }
-                }
-                catch (UserNotFoundException e) {
+                if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+                    throw new UserEmailNotUniqueException("User with email " + userDto.getEmail() + " already exists.");
                 }
             } else {
-                try {
-                    User sameEmail = userRepository.findByEmail(userDto.getEmail());
-                    if (!Objects.equals(sameEmail.getId(), userDto.getId())) {
-                        throw new UserEmailNotUniqueException("User with email " + userDto.getEmail()
-                                + " already exists.");
+                    Optional<User> optionalSameEmail = userRepository.findByEmail(userDto.getEmail());
+                    if (optionalSameEmail.isPresent()) {
+                        User sameEmail =  optionalSameEmail.get();
+                        if (!userDto.getId().equals(sameEmail.getId())) {
+                            throw new UserEmailNotUniqueException("User with email " + userDto.getEmail()
+                                    + " already exists.");
+                        }
                     }
-                } catch (UserNotFoundException e) {
-                }
             }
         } else {
             throw new UserEmailWasNotProvidedException("User email wasn't provided.");
@@ -62,20 +58,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findById(Long id) throws UserNotFoundException {
         log.debug("Retrieving user by id");
-        User user = userRepository.findById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " wasn't found.");
-        }
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("User with id " + id + " wasn't found."));
         return dataMapper.toUserDto(user);
     }
 
     @Override
     public UserDto findByEmail(String email) throws UserNotFoundException {
         log.debug("Retrieving user by email");
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new RuntimeException("User with email " + email + " wasn't found.");
-        }
+        User user = userRepository.findByEmail(email).
+                orElseThrow(() -> new UserNotFoundException("User with email " + email + " wasn't found."));
         return dataMapper.toUserDto(user);
     }
 
@@ -113,26 +105,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto login(String email, String password) throws UserNotFoundException {
+    public UserDto login(String email, String password) throws WrongLoginInfoException {
         log.debug("Logging into account");
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             if (user.getPassword() != null && user.getPassword().equals(password)) {
                 return dataMapper.toUserDto(user);
             } else {
-                throw new RuntimeException("Wrong password given for user with such email " + email + ".");
+                throw new WrongLoginInfoException("Wrong password given for user with such email " + email + ".");
             }
         } else {
-            throw new RuntimeException("User with such email doesn't exist(email: " + email + ")");
+            throw new WrongLoginInfoException("User with such email doesn't exist(email: " + email + ")");
         }
     }
 
     @Override
     public void deleteById(Long id) {
         log.debug("Deleting user by id");
-        boolean isDeleted = userRepository.delete(id);
-        if (!isDeleted) {
-            throw new RuntimeException("Couldn't delete user with id: " + id + ".");
-        }
+        userRepository.deleteById(id);
     }
 }
