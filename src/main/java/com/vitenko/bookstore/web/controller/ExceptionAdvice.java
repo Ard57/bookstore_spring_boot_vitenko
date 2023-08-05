@@ -3,6 +3,8 @@ package com.vitenko.bookstore.web.controller;
 
 import com.vitenko.bookstore.exception.AppException;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
+import com.vitenko.bookstore.exception.cart.CartException;
+import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
@@ -13,8 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@ControllerAdvice(annotations = org.springframework.stereotype.Controller.class)
+@ControllerAdvice(annotations = {org.springframework.stereotype.Controller.class, RestController.class})
 public class ExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -67,6 +70,20 @@ public class ExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleOrderNotFoundException(Model model, OrderNotFoundException e) {
+        model.addAttribute("message", e.getMessage());
+        return "error";
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalOrderArgumentException(Model model, IllegalOrderArgumentException e) {
+        model.addAttribute("message", e.getMessage());
+        return "error";
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleCartException(Model model, CartException e) {
         model.addAttribute("message", e.getMessage());
         return "error";
     }

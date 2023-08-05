@@ -20,7 +20,7 @@
 
     <div class="form">
 
-        <form class="form" method="post" action="/user/${userDto.id}/edit">
+        <form method="post" action="/user/${userDto.id}/edit">
             <label>Email:
                 <input name="email" type="email" value="${userDto.email}" placeholder="your@email" required>
                 <br>

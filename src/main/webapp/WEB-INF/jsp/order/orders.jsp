@@ -4,6 +4,8 @@
 <head>
     <title>Orders</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/lib/jquery-3.7.0.js"></script>
+    <script defer src="/js/orders.js"></script>
 </head>
 <body>
 
@@ -20,25 +22,16 @@
     </c:if>
 
     <table>
+        <thead>
         <tr>
-            <th>#</th>
             <th>ID</th>
             <th>Buyer email</th>
-            <th>Number 0f items</th>
-            <th>Total price</th>
             <th>Status</th>
         </tr>
+        </thead>
 
-        <c:forEach items="${orderDtos}" var="orderDto" varStatus="counter">
-            <tr>
-                <td class="center-align">${counter.count}</td>
-                <td class="center-align"><a href="/order/${orderDto.id}">${orderDto.id}</a></td>
-                <td>${orderDto.user.email}</td>
-                <td class="center-align">${totalBooks.get(orderDto.id)}</td>
-                <td class="center-align">${totalPrices.get(orderDto.id)}</td>
-                <td class="center-align">${orderDto.status}</td>
-            </tr>
-        </c:forEach>
+        <tbody>
+        </tbody>
 
     </table>
 

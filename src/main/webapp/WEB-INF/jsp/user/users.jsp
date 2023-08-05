@@ -4,6 +4,8 @@
 <head>
     <title>Users</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <script defer src="/js/lib/jquery-3.7.0.js"></script>
+    <script defer src="/js/users.js"></script>
 </head>
 <body>
 <div class="content">
@@ -19,8 +21,8 @@
     </c:if>
 
     <table>
+        <thead>
         <tr>
-            <th>#</th>
             <th>ID</th>
             <th>Email</th>
             <th>Last Name</th>
@@ -29,19 +31,9 @@
             <th>Role</th>
             <th>Actions</th>
         </tr>
-
-        <c:forEach items="${userDtos}" var="userDto" varStatus="counter">
-            <tr>
-                <td>${counter.count}</td>
-                <td class="center-align"><a href="/user/${userDto.id}">${userDto.id}</a></td>
-                <td>${userDto.email}</td>
-                <td>${userDto.lastName}</td>
-                <td>${userDto.firstName}</td>
-                <td>${userDto.password}</td>
-                <td class="center-align">${userDto.role}</td>
-                <td class="center-align"><a href="/user/${userDto.id}/edit">Edit</a></td>
-            </tr>
-        </c:forEach>
+        </thead>
+        <tbody>
+        </tbody>
 
     </table>
 </div>

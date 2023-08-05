@@ -1,4 +1,4 @@
-package com.vitenko.bookstore.web.controller.impl;
+package com.vitenko.bookstore.web.controller.view;
 
 import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
 import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
@@ -6,7 +6,6 @@ import com.vitenko.bookstore.exception.user.UserNotFoundException;
 import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.UserDto;
-import com.vitenko.bookstore.web.controller.Controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -18,15 +17,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
 @org.springframework.stereotype.Controller("user")
-public class UserController implements Controller {
+@RequestMapping("/users")
+public class UserController {
     private final UserService userService;
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/{id}")
     public String getUser(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
         model.addAttribute("userDto", userDto);
@@ -34,15 +33,12 @@ public class UserController implements Controller {
         return "user/user";
     }
 
-    @GetMapping(path = "/user/all")
-    public String getAllUsers(Model model) {
-        List<UserDto> userDtos = userService.getAllUsers();
-        model.addAttribute("userDtos", userDtos);
-        model.addAttribute("date", LocalDateTime.now().toString());
+    @GetMapping(path = "/all")
+    public String getAllUsers() {
         return "user/users";
     }
 
-    @GetMapping(path = "/user/{id}/edit")
+    @GetMapping(path = "/{id}/edit")
     public String editUserForm(@PathVariable Long id, Model model) throws UserNotFoundException {
         UserDto userDto = userService.findById(id);
 
@@ -51,7 +47,7 @@ public class UserController implements Controller {
         return "user/userEditForm";
     }
 
-    @PostMapping(path = "/user/{id}/edit")
+    @PostMapping(path = "/{id}/edit")
     public RedirectView editUser(@PathVariable Long id,
                                  @ModelAttribute("userDto") UserDto userDto,
                                  RedirectAttributes redirectAttributes, HttpSession session) throws
@@ -70,6 +66,6 @@ public class UserController implements Controller {
 
         redirectAttributes.addFlashAttribute("message", "User successfully edited.");
 
-        return new RedirectView("/user/" + createdUserDto.getId());
+        return new RedirectView("/users/" + createdUserDto.getId());
     }
 }
