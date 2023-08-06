@@ -15,6 +15,8 @@ import com.vitenko.bookstore.service.dto.UserDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -56,12 +58,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getAllOrders() {
+    public Page<OrderDto> getAllOrders(Pageable page) {
         log.debug("Retrieving all orders");
-        return orderRepository.findAll()
-                .stream()
-                .map(dataMapper::toOrderDto)
-                .toList();
+        return orderRepository.findAll(page)
+                .map(dataMapper::toOrderDto);
     }
 
     @Override
