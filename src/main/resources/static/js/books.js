@@ -1,15 +1,22 @@
 $(document).ready(function () {
-    refresh();
+    let req = '/api/books/all'
+    refresh(req);
 
-    function refresh() {
-        $.getJSON('/api/books/all', processBooks);
+    function refresh(request) {
+        if (request != null) {
+            req = request;
+        }
+        $.getJSON(req, processBooks);
         refreshCartSize(setCartSize);
     }
 
     function processBooks(data) {
+        let url = '/api/books/all';
+        setPagination(data, url, refresh);
+
         let table = $("tbody");
         table.empty();
-        data.forEach(function (obj) {
+        data.content.forEach(function (obj) {
             processTableRow(obj, table)
         });
     }
@@ -36,14 +43,14 @@ $(document).ready(function () {
         tableRow.find(".add-to-cart-button").on("click", () => $.ajax({
             url: '/api/cart/add/' + book.id,
             type: 'POST',
-            success: refresh
+            success: ()=>{refresh(null)}
         }));
         tableRow.find(".delete-button").on("click", () => $.ajax({
             url: '/api/books/' + book.id,
             type: 'DELETE',
-            success: refresh
+            success: ()=>{refresh(null)}
         }));
-        tableRow.find(".edit-button").on("click", () => window.location.href = '/books/'+book.id+'/edit');
+        tableRow.find(".edit-button").on("click", () => window.location.href = '/books/' + book.id + '/edit');
 
         table.append(tableRow);
     }
