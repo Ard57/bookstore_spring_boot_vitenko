@@ -22,8 +22,6 @@ function setPagination(page, url, refresh) {
 
     let sizeSelector = paginationButtons.find(".sizes-list");
 
-    console.log(sizeSelector);
-
     sizeSet.forEach(s => {
         if (s == size) {
             sizeSelector.append($(`
@@ -36,10 +34,6 @@ function setPagination(page, url, refresh) {
         }
     })
 
-    // for (let s in sizeSet) {
-    //     console.log(s);
-    // }
-
     paginationButtons.find(".first-page-button").on("click", () => refresh(
         url+'?page=' + 1 + '&size=' + size));
     paginationButtons.find(".prev-page-button").on("click", () => refresh(
@@ -51,7 +45,6 @@ function setPagination(page, url, refresh) {
 
     sizeSelector.on("change",
         () => refresh(url + '?size=' + paginationButtons.find(".sizes-list").val()));
-
 
     paginationDiv.append(paginationButtons);
 }
