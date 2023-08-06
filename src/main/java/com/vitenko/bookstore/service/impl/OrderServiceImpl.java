@@ -15,6 +15,8 @@ import com.vitenko.bookstore.service.dto.UserDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -41,10 +43,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto findById(Long id) throws OrderNotFoundException {
         log.debug("Retrieving order by ID");
-        Order order = orderRepository.findById(id);
-        if (order == null) {
-            throw new RuntimeException("Order with id " + id + " wasn't found.");
-        }
+        Order order = orderRepository.findById(id).
+                orElseThrow(() -> new OrderNotFoundException("Order with id " + id + " wasn't found."));
         return dataMapper.toOrderDto(order);
     }
 
@@ -58,12 +58,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getAllOrders() {
+    public Page<OrderDto> getAllOrders(Pageable page) {
         log.debug("Retrieving all orders");
-        return orderRepository.findAll()
-                .stream()
-                .map(dataMapper::toOrderDto)
-                .toList();
+        return orderRepository.findAll(page)
+                .map(dataMapper::toOrderDto);
     }
 
     @Override
@@ -77,10 +75,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteById(Long id) {
         log.debug("Deleting order by id");
-        boolean isDeleted = orderRepository.delete(id);
-        if (!isDeleted) {
-            throw new RuntimeException("Couldn't delete order with id: " + id + ".");
-        }
+        orderRepository.deleteById(id);
     }
 
     private void validate(OrderDto orderDto) throws IllegalOrderArgumentException {
@@ -150,7 +145,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto addItem(OrderDto cart, Long id, Integer amount) throws BookNotFoundException {
-        BookDto bookDto = dataMapper.toBookDto(bookRepository.findById(id));
+        BookDto bookDto = dataMapper.toBookDto(bookRepository.findById(id).
+                orElseThrow(() -> new BookNotFoundException("Book with id " + id + " wasn't found")));
         OrderItemDto orderItemDto = new OrderItemDto();
         for (OrderItemDto item : cart.getOrderItems()) {
             if (item.getBook().equals(bookDto)) {

@@ -2,18 +2,14 @@ package com.vitenko.bookstore.data.repository;
 
 import com.vitenko.bookstore.data.entity.Book;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface BookRepository{
-    Book save(Book book);
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    Book findById(Long id) throws BookNotFoundException;
-
-    List<Book> findAll();
-
-    boolean delete(Long id);
-    Book findByIsbn(String isbn) throws BookNotFoundException;
+    Optional<Book> findByIsbn(String isbn);
 
     List<Book> findByAuthor(String author);
 }

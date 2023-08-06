@@ -1,14 +1,21 @@
 $(document).ready(function () {
-    refresh();
+    let req = '/api/users/all';
+    refresh(req);
 
-    function refresh() {
-        $.getJSON('/api/users/all', processUsers);
+    function refresh(request) {
+        if (request != null) {
+            req = request;
+        }
+        $.getJSON(req, processUsers);
     }
 
     function processUsers(data) {
+        let url = '/api/users/all';
+        setPagination(data, url, refresh);
+
         let table = $("tbody");
         table.empty();
-        data.forEach(function (obj) {
+        data.content.forEach(function (obj) {
             processTableRow(obj, table)
         });
     }
@@ -30,11 +37,13 @@ $(document).ready(function () {
         `);
 
         tableRow.find(".delete-button").on("click", () => $.ajax({
-            url: '/api/users/'+user.id+'/delete',
+            url: '/api/users/' + user.id,
             type: 'DELETE',
-            success: refresh
+            success: () => {
+                refresh(null);
+            }
         }));
-        tableRow.find(".edit-button").on("click", () => window.location.href = '/users/'+user.id+'/edit');
+        tableRow.find(".edit-button").on("click", () => window.location.href = '/users/' + user.id + '/edit');
 
 
         table.append(tableRow);

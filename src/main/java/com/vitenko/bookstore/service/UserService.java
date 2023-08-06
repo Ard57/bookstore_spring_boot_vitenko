@@ -1,10 +1,10 @@
 package com.vitenko.bookstore.service;
 
-import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
-import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
-import com.vitenko.bookstore.exception.user.UserNotFoundException;
-import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
+import com.fasterxml.jackson.datatype.jdk8.WrappedIOException;
+import com.vitenko.bookstore.exception.user.*;
 import com.vitenko.bookstore.service.dto.UserDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,14 +18,14 @@ public interface UserService {
 
     List<UserDto> findByLastName(String lastName);
 
-    List<UserDto> getAllUsers();
+    Page<UserDto> getAllUsers(Pageable page);
 
     long countAll();
 
     UserDto update(UserDto userDto) throws
             UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException;
 
-    UserDto login(String email, String password) throws UserNotFoundException;
+    UserDto login(String email, String password) throws WrongLoginInfoException;
 
     void deleteById(Long id);
 }

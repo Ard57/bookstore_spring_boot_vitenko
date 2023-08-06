@@ -3,6 +3,8 @@ package com.vitenko.bookstore.service;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
 import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.dto.BookDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public interface BookService {
 
     List<BookDto> findByAuthor(String author);
 
-    List<BookDto> getAllBooks();
+    Page<BookDto> getAllBooks(Pageable page);
 
     long countAll();
 

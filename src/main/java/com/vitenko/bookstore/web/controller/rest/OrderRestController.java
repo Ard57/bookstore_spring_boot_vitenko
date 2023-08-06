@@ -5,6 +5,8 @@ import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -22,8 +24,8 @@ public class OrderRestController {
     }
 
     @GetMapping(path = "/all")
-    public List<OrderDto> getAllOrders() {
-        return orderService.getAllOrders();
+    public Page<OrderDto> getAllOrders(Pageable page) {
+        return orderService.getAllOrders(page);
     }
 
     @PostMapping(path = "")

@@ -1,19 +1,13 @@
 package com.vitenko.bookstore.data.repository;
 
 import com.vitenko.bookstore.data.entity.User;
-import com.vitenko.bookstore.exception.user.UserNotFoundException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserRepository {
-    User save(User entity);
-
-    User findById(Long id) throws UserNotFoundException;
-
-    List<User> findAll();
-
-    boolean delete(Long id);
-    User findByEmail(String email) throws UserNotFoundException;
-
+public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByLastName(String lastName);
+
+    Optional<User> findByEmail(String email);
 }

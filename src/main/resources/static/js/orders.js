@@ -1,14 +1,21 @@
 $(document).ready(function () {
-    refresh();
+    let req = '/api/orders/all';
+    refresh(req);
 
-    function refresh() {
-        $.getJSON('/api/orders/all', processOrders);
+    function refresh(request) {
+        if (request != null) {
+            req = request;
+        }
+        $.getJSON(req, processOrders);
     }
 
-    function processOrders(orders) {
+    function processOrders(data) {
+        let url = '/api/orders/all';
+        setPagination(data, url, refresh);
+
         let table = $("tbody");
         table.empty();
-        orders.forEach(function (obj) {
+        data.content.forEach(function (obj) {
             processTableRow(obj, table)
         });
     }

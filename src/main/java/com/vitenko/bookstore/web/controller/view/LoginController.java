@@ -1,9 +1,6 @@
 package com.vitenko.bookstore.web.controller.view;
 
-import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
-import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
-import com.vitenko.bookstore.exception.user.UserNotFoundException;
-import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
+import com.vitenko.bookstore.exception.user.*;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.OrderDto;
@@ -56,7 +53,7 @@ public class LoginController {
     @PostMapping(path = "/login")
     public RedirectView login(@ModelAttribute("userDto") UserDto userDto,
                               RedirectAttributes redirectAttributes, HttpSession session) throws
-            UserNotFoundException {
+            WrongLoginInfoException {
         userDto = userService.login(userDto.getEmail(), userDto.getPassword());
 
         handleSessionAttributes(session, userDto);
