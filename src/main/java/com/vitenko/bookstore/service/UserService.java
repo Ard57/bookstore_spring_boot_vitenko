@@ -3,6 +3,8 @@ package com.vitenko.bookstore.service;
 import com.fasterxml.jackson.datatype.jdk8.WrappedIOException;
 import com.vitenko.bookstore.exception.user.*;
 import com.vitenko.bookstore.service.dto.UserDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface UserService {
 
     List<UserDto> findByLastName(String lastName);
 
-    List<UserDto> getAllUsers();
+    Page<UserDto> getAllUsers(Pageable page);
 
     long countAll();
 

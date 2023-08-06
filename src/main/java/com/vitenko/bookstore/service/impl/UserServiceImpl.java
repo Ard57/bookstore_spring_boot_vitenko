@@ -8,6 +8,8 @@ import com.vitenko.bookstore.service.dto.UserDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,12 +83,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public Page<UserDto> getAllUsers(Pageable page) {
         log.debug("Retrieving all users");
-        return userRepository.findAll()
-                .stream()
-                .map(dataMapper::toUserDto)
-                .toList();
+        return userRepository.findAll(page)
+                .map(dataMapper::toUserDto);
     }
 
     @Override

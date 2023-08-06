@@ -7,6 +7,8 @@ import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +24,8 @@ public class UserRestController {
     }
 
     @GetMapping("/api/users/all")
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
+    public Page<UserDto> getAllUsers(Pageable page) {
+        return userService.getAllUsers(page);
     }
 
     @PostMapping("/api/users/create")
