@@ -5,9 +5,9 @@ import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.BookService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +21,8 @@ public class BookRestController {
     }
 
     @GetMapping("/all")
-    public List<BookDto> getAllBooks() {
-        return bookService.getAllBooks();
+    public Page<BookDto> getAllBooks(Pageable page) {
+        return bookService.getAllBooks(page);
     }
 
     @PostMapping("")

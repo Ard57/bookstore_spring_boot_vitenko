@@ -9,6 +9,8 @@ import com.vitenko.bookstore.service.dto.BookDto;
 import com.vitenko.bookstore.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -55,12 +57,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAllBooks() {
+    public Page<BookDto> getAllBooks(Pageable page) {
         log.debug("Retrieving all books");
-        return bookRepository.findAll()
-                .stream()
-                .map(dataMapper::toBookDto)
-                .toList();
+        return bookRepository.findAll(page)
+                .map(dataMapper::toBookDto);
     }
 
     @Override
