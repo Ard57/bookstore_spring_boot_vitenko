@@ -15,4 +15,9 @@ spring:
   config:
     activate:
       on-profile: dev
-
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        default-page-size: 10
+        max-page-size: 50
