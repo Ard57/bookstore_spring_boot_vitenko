@@ -12,9 +12,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       show-sql: 'true'
-  config:
-    activate:
-      on-profile: dev
   data:
     web:
       pageable:
