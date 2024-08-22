@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
             if (item.getBook() == null) {
                 throw new IllegalOrderArgumentException("Order item must have specified book");
             }
-            if (item.getPrice() == null || (item.getPrice().compareTo(new BigDecimal("0.01")) <= 0)) {
+            if (item.getPrice() == null || (item.getPrice().compareTo(BigDecimal.valueOf(1, 2)) <= 0)) {
                 throw new IllegalOrderArgumentException("Order item price must be specified");
             }
             if (item.getAmount() == null || item.getAmount() < 1) {
@@ -116,20 +116,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BigDecimal getOrderTotalPrice(OrderDto orderDto) {
         if (orderDto == null) {
-            return new BigDecimal("0");
+            return BigDecimal.valueOf(0, 2);
         }
-        BigDecimal totalPrice = new BigDecimal(0);
+        BigDecimal totalPrice = BigDecimal.valueOf(0, 2);
         if (orderDto.getStatus() == Order.Status.CART) {
             for (OrderItemDto orderItemDto : orderDto.getOrderItems()) {
                 totalPrice = totalPrice.add(
                         orderItemDto.getBook().getPrice().multiply(
-                                new BigDecimal(orderItemDto.getAmount())));
+                                BigDecimal.valueOf(orderItemDto.getAmount())));
             }
         } else {
             for (OrderItemDto orderItemDto : orderDto.getOrderItems()) {
                 totalPrice = totalPrice.add(
                         orderItemDto.getPrice().multiply(
-                                new BigDecimal(orderItemDto.getAmount())));
+                                BigDecimal.valueOf(orderItemDto.getAmount())));
             }
         }
         return totalPrice;

@@ -62,7 +62,7 @@ public class CartRestController {
     public BigDecimal getCartTotalPrice(HttpSession session) {
         OrderDto cart = (OrderDto) session.getAttribute("cart");
         if (cart == null) {
-            return new BigDecimal("0");
+            return BigDecimal.valueOf(0, 2);
         }
         return orderService.getOrderTotalPrice(cart);
     }
