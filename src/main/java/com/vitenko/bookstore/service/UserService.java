@@ -9,8 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UserService {
-    UserDto create(UserDto userDto) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException;
+    UserDto create(UserDto userDto) throws UserException;
 
     UserDto findById(Long id) throws UserNotFoundException;
 
@@ -22,10 +21,9 @@ public interface UserService {
 
     long countAll();
 
-    UserDto update(UserDto userDto) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException;
+    UserDto update(UserDto userDto) throws UserException;
 
-    UserDto login(String email, String password) throws WrongLoginInfoException;
+    UserDto login(String email, String password) throws UserException;
 
     void deleteById(Long id);
 }

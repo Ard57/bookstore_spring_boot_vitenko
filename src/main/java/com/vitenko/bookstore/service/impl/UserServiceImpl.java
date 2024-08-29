@@ -22,34 +22,32 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final DataMapper dataMapper;
 
-    private void validate(UserDto userDto) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+    private void validate(UserDto userDto) throws UserException {
         if (userDto.getEmail() != null && !userDto.getEmail().isBlank()) {
             if (userDto.getId() == null) {
                 if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-                    throw new UserEmailNotUniqueException("User with email " + userDto.getEmail() + " already exists.");
+                    throw new UserException("User with email " + userDto.getEmail() + " already exists.");
                 }
             } else {
                     Optional<User> optionalSameEmail = userRepository.findByEmail(userDto.getEmail());
                     if (optionalSameEmail.isPresent()) {
                         User sameEmail =  optionalSameEmail.get();
                         if (!userDto.getId().equals(sameEmail.getId())) {
-                            throw new UserEmailNotUniqueException("User with email " + userDto.getEmail()
+                            throw new UserException("User with email " + userDto.getEmail()
                                     + " already exists.");
                         }
                     }
             }
         } else {
-            throw new UserEmailWasNotProvidedException("User email wasn't provided.");
+            throw new UserException("User email wasn't provided.");
         }
         if (userDto.getPassword() == null || userDto.getPassword().isBlank()) {
-            throw new UserPasswordNotProvidedException("User password wasn't provided");
+            throw new UserException("User password wasn't provided");
         }
     }
 
     @Override
-    public UserDto create(UserDto userDto) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+    public UserDto create(UserDto userDto) throws UserException {
         log.debug("Creating user");
         userDto.setRole(User.Role.CUSTOMER);
         validate(userDto);
@@ -96,8 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(UserDto userDto) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+    public UserDto update(UserDto userDto) throws UserException {
         log.debug("Updating user");
         validate(userDto);
         User user = userRepository.save(dataMapper.toUser(userDto));
@@ -105,7 +102,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto login(String email, String password) throws WrongLoginInfoException {
+    public UserDto login(String email, String password) throws UserException {
         log.debug("Logging into account");
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
@@ -113,10 +110,10 @@ public class UserServiceImpl implements UserService {
             if (user.getPassword() != null && user.getPassword().equals(password)) {
                 return dataMapper.toUserDto(user);
             } else {
-                throw new WrongLoginInfoException("Wrong password given for user with such email " + email + ".");
+                throw new UserException("Wrong password given for user with such email " + email + ".");
             }
         } else {
-            throw new WrongLoginInfoException("User with such email doesn't exist(email: " + email + ")");
+            throw new UserException("User with such email doesn't exist(email: " + email + ")");
         }
     }
 

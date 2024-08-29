@@ -1,7 +1,7 @@
 package com.vitenko.bookstore.service;
 
+import com.vitenko.bookstore.exception.book.BookException;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
-import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.dto.BookDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface BookService {
-    BookDto create(BookDto book) throws IllegalBookArgumentException;
+    BookDto create(BookDto book) throws BookException;
 
     BookDto findById(Long id) throws BookNotFoundException;
 
@@ -21,7 +21,7 @@ public interface BookService {
 
     long countAll();
 
-    BookDto update(BookDto book) throws IllegalBookArgumentException;
+    BookDto update(BookDto book) throws BookException;
 
     void deleteById(Long id);
 }

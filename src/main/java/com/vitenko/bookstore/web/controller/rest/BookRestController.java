@@ -1,7 +1,7 @@
 package com.vitenko.bookstore.web.controller.rest;
 
+import com.vitenko.bookstore.exception.book.BookException;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
-import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.BookService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +27,13 @@ public class BookRestController {
 
     @PostMapping("")
     public BookDto createBook(@ModelAttribute BookDto bookDto)
-            throws IllegalBookArgumentException {
+            throws BookException {
         return bookService.create(bookDto);
     }
 
     @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable Long id, @ModelAttribute BookDto bookDto)
-            throws IllegalBookArgumentException {
+            throws BookException {
         bookDto.setId(id);
         return bookService.update(bookDto);
     }

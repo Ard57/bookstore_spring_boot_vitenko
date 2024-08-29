@@ -1,7 +1,7 @@
 package com.vitenko.bookstore.web.controller.view;
 
+import com.vitenko.bookstore.exception.book.BookException;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
-import com.vitenko.bookstore.exception.book.IllegalBookArgumentException;
 import com.vitenko.bookstore.service.BookService;
 import com.vitenko.bookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class BookController {
     public RedirectView editBook(@PathVariable Long id,
                                  @ModelAttribute("bookDto") BookDto bookDto,
                                  RedirectAttributes redirectAttributes)
-            throws BookNotFoundException, IllegalBookArgumentException {
+            throws BookNotFoundException, BookException {
         bookService.findById(id);
         bookDto.setId(id);
         BookDto updatedBookDto = bookService.update(bookDto);
@@ -55,7 +55,7 @@ public class BookController {
 
     @PostMapping(path = "/create")
     public RedirectView createBook(@ModelAttribute("bookDto") BookDto bookDto,
-            RedirectAttributes redirectAttributes) throws IllegalBookArgumentException {
+            RedirectAttributes redirectAttributes) throws BookException {
         BookDto createdBookDto = bookService.create(bookDto);
 
         redirectAttributes.addFlashAttribute("message", "Book successfully added.");

@@ -2,7 +2,7 @@ package com.vitenko.bookstore.service;
 
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
 import com.vitenko.bookstore.exception.cart.CartException;
-import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
+import com.vitenko.bookstore.exception.order.OrderException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.dto.OrderDto;
 import com.vitenko.bookstore.service.dto.UserDto;
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderService {
-    OrderDto create(OrderDto orderDto) throws IllegalOrderArgumentException;
+    OrderDto create(OrderDto orderDto) throws OrderException;
 
     OrderDto findById(Long id) throws OrderNotFoundException;
 
@@ -21,7 +21,7 @@ public interface OrderService {
 
     Page<OrderDto> getAllOrders(Pageable page);
 
-    OrderDto update(OrderDto orderDto) throws IllegalOrderArgumentException;
+    OrderDto update(OrderDto orderDto) throws OrderException;
 
     void deleteById(Long id);
 

@@ -1,6 +1,6 @@
 package com.vitenko.bookstore.web.controller.rest;
 
-import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
+import com.vitenko.bookstore.exception.order.OrderException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.OrderDto;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,12 +28,12 @@ public class OrderRestController {
     }
 
     @PostMapping(path = "")
-    public OrderDto createOrder(@ModelAttribute OrderDto orderDto) throws IllegalOrderArgumentException {
+    public OrderDto createOrder(@ModelAttribute OrderDto orderDto) throws OrderException {
         return orderService.create(orderDto);
     }
 
     @PutMapping(path = "/{id}")
-    public OrderDto updateOrder(@PathVariable Long id, @ModelAttribute OrderDto orderDto) throws IllegalOrderArgumentException {
+    public OrderDto updateOrder(@PathVariable Long id, @ModelAttribute OrderDto orderDto) throws OrderException {
         orderDto.setId(id);
         return orderService.update(orderDto);
     }

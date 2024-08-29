@@ -32,8 +32,7 @@ public class LoginController {
     @PostMapping(path = "/register")
     public RedirectView addUser(@ModelAttribute("userDto") UserDto userDto,
                                 RedirectAttributes redirectAttributes,
-                                HttpSession session) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException, UserEmailWasNotProvidedException {
+                                HttpSession session) throws UserException {
         UserDto createdUserDto = userService.create(userDto);
 
         handleSessionAttributes(session, createdUserDto);
@@ -52,8 +51,7 @@ public class LoginController {
 
     @PostMapping(path = "/login")
     public RedirectView login(@ModelAttribute("userDto") UserDto userDto,
-                              RedirectAttributes redirectAttributes, HttpSession session) throws
-            WrongLoginInfoException {
+                              RedirectAttributes redirectAttributes, HttpSession session) throws UserException {
         userDto = userService.login(userDto.getEmail(), userDto.getPassword());
 
         handleSessionAttributes(session, userDto);

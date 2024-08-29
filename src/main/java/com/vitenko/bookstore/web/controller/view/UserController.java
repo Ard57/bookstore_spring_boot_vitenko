@@ -1,9 +1,7 @@
 package com.vitenko.bookstore.web.controller.view;
 
-import com.vitenko.bookstore.exception.user.UserEmailNotUniqueException;
-import com.vitenko.bookstore.exception.user.UserEmailWasNotProvidedException;
+import com.vitenko.bookstore.exception.user.UserException;
 import com.vitenko.bookstore.exception.user.UserNotFoundException;
-import com.vitenko.bookstore.exception.user.UserPasswordNotProvidedException;
 import com.vitenko.bookstore.service.UserService;
 import com.vitenko.bookstore.service.dto.UserDto;
 
@@ -51,8 +49,7 @@ public class UserController {
     public RedirectView editUser(@PathVariable Long id,
                                  @ModelAttribute("userDto") UserDto userDto,
                                  RedirectAttributes redirectAttributes, HttpSession session) throws
-            UserEmailNotUniqueException, UserPasswordNotProvidedException,
-            UserEmailWasNotProvidedException, UserNotFoundException {
+            UserException, UserNotFoundException {
         UserDto oldUserDto = userService.findById(id);
 
         oldUserDto.setEmail(userDto.getEmail());

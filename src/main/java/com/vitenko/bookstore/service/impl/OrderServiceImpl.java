@@ -5,7 +5,7 @@ import com.vitenko.bookstore.data.repository.BookRepository;
 import com.vitenko.bookstore.data.repository.OrderRepository;
 import com.vitenko.bookstore.exception.book.BookNotFoundException;
 import com.vitenko.bookstore.exception.cart.CartException;
-import com.vitenko.bookstore.exception.order.IllegalOrderArgumentException;
+import com.vitenko.bookstore.exception.order.OrderException;
 import com.vitenko.bookstore.exception.order.OrderNotFoundException;
 import com.vitenko.bookstore.service.OrderService;
 import com.vitenko.bookstore.service.dto.BookDto;
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final DataMapper dataMapper;
 
     @Override
-    public OrderDto create(OrderDto orderDto) throws IllegalOrderArgumentException {
+    public OrderDto create(OrderDto orderDto) throws OrderException {
         log.debug("Creating order");
         orderDto.setStatus(Order.Status.PROCESSING);
         validate(orderDto);
@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto update(OrderDto orderDto) throws IllegalOrderArgumentException {
+    public OrderDto update(OrderDto orderDto) throws OrderException {
         log.debug("Updating order");
         validate(orderDto);
         Order order = orderRepository.save(dataMapper.toOrder(orderDto));
@@ -78,28 +78,28 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 
-    private void validate(OrderDto orderDto) throws IllegalOrderArgumentException {
+    private void validate(OrderDto orderDto) throws OrderException {
         if (orderDto.getUser() == null) {
-            throw new IllegalOrderArgumentException("Customer for order must be specified.");
+            throw new OrderException("Customer for order must be specified.");
         }
         if (orderDto.getStatus() == null) {
-            throw new IllegalOrderArgumentException("Order must have correct status.");
+            throw new OrderException("Order must have correct status.");
         }
         if (orderDto.getOrderItems() == null || orderDto.getOrderItems().isEmpty()) {
-            throw new IllegalOrderArgumentException("List of order items must be not empty.");
+            throw new OrderException("List of order items must be not empty.");
         }
         for (OrderItemDto item : orderDto.getOrderItems()) {
             if (item == null) {
-                throw new IllegalOrderArgumentException("Order cannot contain empty items.");
+                throw new OrderException("Order cannot contain empty items.");
             }
             if (item.getBook() == null) {
-                throw new IllegalOrderArgumentException("Order item must have specified book");
+                throw new OrderException("Order item must have specified book");
             }
             if (item.getPrice() == null || (item.getPrice().compareTo(BigDecimal.valueOf(1, 2)) <= 0)) {
-                throw new IllegalOrderArgumentException("Order item price must be specified");
+                throw new OrderException("Order item price must be specified");
             }
             if (item.getAmount() == null || item.getAmount() < 1) {
-                throw new IllegalOrderArgumentException("Order item amount must be specified");
+                throw new OrderException("Order item amount must be specified");
             }
         }
     }
